@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Softvana – Desarrollo de Software a la Medida | Chiapas, México</title>
+  <meta name="description" content="Softvana es una empresa chiapaneca especializada en desarrollo de software a medida: páginas web, tiendas en línea, aplicaciones web y sistemas personalizados para negocios." />
+  <meta name="keywords" content="desarrollo de software, software a medida, páginas web, tiendas en línea, aplicaciones web, Chiapas, México" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #050a12;
+      --bg2: #080f1c;
+      --bg3: #0c1628;
+      --card: #0e1e35;
+      --accent: #00c6ff;
+      --accent2: #0072ff;
+      --green: #00e5a0;
+      --text: #e8f0fe;
+      --muted: #7a90b0;
+      --border: rgba(0,198,255,0.12);
+      --glow: 0 0 40px rgba(0,198,255,0.18);
+      --radius: 16px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    h1,h2,h3,h4 { font-family: 'Syne', sans-serif; line-height: 1.15; }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      opacity: 0.4;
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 6vw;
+      background: rgba(5,10,18,0.7);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      transition: padding .3s;
+    }
+    nav.scrolled { padding: 12px 6vw; }
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800; font-size: 1.5rem;
+      background: linear-gradient(90deg, var(--accent), var(--green));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px;
+    }
+    .logo span { -webkit-text-fill-color: var(--muted); font-weight: 400; }
+    nav ul { list-style: none; display: flex; gap: 36px; }
+    nav ul a { color: var(--muted); text-decoration: none; font-size: .9rem; font-weight: 500; transition: color .2s; }
+    nav ul a:hover { color: var(--accent); }
+    .nav-cta {
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      color: #fff; border: none; padding: 10px 24px;
+      border-radius: 50px; font-family: 'Syne',sans-serif; font-weight: 700;
+      font-size: .85rem; cursor: pointer; transition: transform .2s, box-shadow .2s;
+      text-decoration: none; letter-spacing: .3px;
+    }
+    .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,114,255,.4); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { width: 24px; height: 2px; background: var(--accent); border-radius: 2px; transition: .3s; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center;
+      padding: 120px 6vw 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(0,198,255,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,198,255,.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black, transparent);
+    }
+    .hero-orb {
+      position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none;
+    }
+    .orb1 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(0,114,255,.25), transparent 70%); top: -100px; left: -100px; }
+    .orb2 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(0,229,160,.18), transparent 70%); bottom: -80px; right: -80px; }
+    .orb3 { width: 300px; height: 300px; background: radial-gradient(circle, rgba(0,198,255,.15), transparent 70%); top: 40%; left: 60%; }
+    .hero-content { position: relative; z-index: 2; max-width: 860px; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(0,198,255,.08); border: 1px solid rgba(0,198,255,.2);
+      color: var(--accent); border-radius: 50px; padding: 7px 18px; font-size: .8rem;
+      font-weight: 600; letter-spacing: .5px; margin-bottom: 28px;
+      animation: fadeDown .8s ease forwards;
+    }
+    .hero-badge::before { content: '●'; font-size: .5rem; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+    h1.hero-title {
+      font-size: clamp(2.4rem, 6vw, 5.2rem);
+      font-weight: 800;
+      letter-spacing: -2px;
+      margin-bottom: 24px;
+      animation: fadeUp .9s .1s ease both;
+    }
+    h1.hero-title .gradient {
+      background: linear-gradient(135deg, var(--accent), var(--green) 60%, var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.2rem); color: var(--muted); max-width: 600px;
+      margin: 0 auto 42px; animation: fadeUp .9s .2s ease both;
+    }
+    .hero-ctas { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; animation: fadeUp .9s .3s ease both; }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      color: #fff; padding: 16px 38px; border-radius: 50px;
+      font-family: 'Syne',sans-serif; font-weight: 700; font-size: 1rem;
+      text-decoration: none; transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 4px 24px rgba(0,114,255,.35);
+    }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,114,255,.5); }
+    .btn-ghost {
+      border: 1px solid var(--border); color: var(--text); padding: 16px 38px;
+      border-radius: 50px; font-family: 'Syne',sans-serif; font-weight: 600; font-size: 1rem;
+      text-decoration: none; transition: border-color .2s, color .2s, background .2s;
+      backdrop-filter: blur(10px);
+    }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); background: rgba(0,198,255,.05); }
+    .hero-stats {
+      display: flex; gap: 48px; justify-content: center; flex-wrap: wrap;
+      margin-top: 72px; padding-top: 48px;
+      border-top: 1px solid var(--border);
+      animation: fadeUp .9s .5s ease both;
+    }
+    .stat-item { text-align: center; }
+    .stat-num {
+      font-family: 'Syne', sans-serif; font-size: 2.4rem; font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--green));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .stat-label { font-size: .85rem; color: var(--muted); }
+
+    /* ── SCROLL INDICATOR ── */
+    .scroll-indicator {
+      position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      animation: fadeUp 1s .8s ease both;
+    }
+    .scroll-indicator span { font-size: .72rem; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; }
+    .scroll-dot {
+      width: 26px; height: 42px; border: 1.5px solid rgba(0,198,255,.3);
+      border-radius: 20px; position: relative;
+    }
+    .scroll-dot::after {
+      content: ''; position: absolute; top: 7px; left: 50%; transform: translateX(-50%);
+      width: 4px; height: 8px; background: var(--accent); border-radius: 2px;
+      animation: scrollAnim 2s infinite;
+    }
+    @keyframes scrollAnim { 0%{top:7px;opacity:1} 100%{top:22px;opacity:0} }
+
+    /* ── SECTIONS ── */
+    section { position: relative; z-index: 1; }
+    .section-inner { max-width: 1200px; margin: 0 auto; padding: 100px 6vw; }
+    .section-tag {
+      display: inline-block;
+      font-size: .75rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 16px;
+    }
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 800;
+      letter-spacing: -1px; margin-bottom: 20px;
+    }
+    .section-sub { color: var(--muted); font-size: 1.05rem; max-width: 560px; }
+
+    /* ── ABOUT ── */
+    #about { background: var(--bg2); }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+      align-items: center; margin-top: 64px;
+    }
+    .about-visual {
+      position: relative; border-radius: var(--radius);
+      overflow: hidden; aspect-ratio: 1;
+    }
+    .about-visual-inner {
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, var(--bg3) 0%, var(--card) 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .code-block {
+      font-family: 'Courier New', monospace; font-size: .78rem;
+      color: var(--muted); line-height: 1.9; padding: 32px; text-align: left;
+    }
+    .code-block .c-purple { color: #c792ea; }
+    .code-block .c-blue { color: var(--accent); }
+    .code-block .c-green { color: var(--green); }
+    .code-block .c-orange { color: #ffcb6b; }
+    .code-block .c-white { color: var(--text); }
+    .about-visual::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(0,114,255,.08), rgba(0,229,160,.06));
+      pointer-events: none;
+    }
+    .about-text .pill {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: rgba(0,229,160,.08); border: 1px solid rgba(0,229,160,.2);
+      color: var(--green); border-radius: 8px; padding: 10px 16px;
+      font-size: .85rem; font-weight: 500; margin: 8px 8px 0 0;
+    }
+    .about-text .pill svg { width: 16px; height: 16px; }
+
+    /* ── MISSION VISION ── */
+    #mission { background: var(--bg); }
+    .mv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 64px; }
+    .mv-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 48px;
+      position: relative; overflow: hidden;
+      transition: transform .3s, box-shadow .3s;
+    }
+    .mv-card:hover { transform: translateY(-6px); box-shadow: var(--glow); }
+    .mv-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    }
+    .mv-card.mission::before { background: linear-gradient(90deg, var(--accent), var(--accent2)); }
+    .mv-card.vision::before { background: linear-gradient(90deg, var(--green), var(--accent)); }
+    .mv-icon {
+      width: 56px; height: 56px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 24px; font-size: 1.6rem;
+    }
+    .mv-icon.blue { background: rgba(0,198,255,.1); border: 1px solid rgba(0,198,255,.2); }
+    .mv-icon.green { background: rgba(0,229,160,.1); border: 1px solid rgba(0,229,160,.2); }
+    .mv-card h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 16px; }
+    .mv-card p { color: var(--muted); line-height: 1.8; }
+
+    /* ── SERVICES ── */
+    #services { background: var(--bg2); }
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; margin-top: 64px; }
+    .service-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 36px; cursor: default;
+      transition: transform .3s, border-color .3s, box-shadow .3s;
+      position: relative; overflow: hidden;
+    }
+    .service-card::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(0,198,255,.06), transparent);
+      opacity: 0; transition: opacity .3s;
+    }
+    .service-card:hover { transform: translateY(-8px); border-color: rgba(0,198,255,.3); box-shadow: var(--glow); }
+    .service-card:hover::after { opacity: 1; }
+    .service-icon {
+      width: 52px; height: 52px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; margin-bottom: 20px;
+      box-shadow: 0 4px 20px rgba(0,114,255,.3);
+    }
+    .service-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 12px; }
+    .service-card p { color: var(--muted); font-size: .9rem; line-height: 1.7; }
+    .service-card .tags { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 6px; }
+    .service-card .tag {
+      font-size: .72rem; padding: 4px 10px; border-radius: 20px;
+      background: rgba(0,198,255,.07); border: 1px solid rgba(0,198,255,.15);
+      color: var(--accent);
+    }
+
+    /* ── SECTORS ── */
+    #sectors { background: var(--bg3); }
+    .sectors-content { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-top: 64px; }
+    .sectors-list { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .sector-item {
+      display: flex; align-items: center; gap: 14px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 18px 20px;
+      transition: border-color .2s, transform .2s;
+    }
+    .sector-item:hover { border-color: var(--accent); transform: scale(1.02); }
+    .sector-item .icon { font-size: 1.5rem; }
+    .sector-item span { font-weight: 500; font-size: .95rem; }
+    .sectors-right { }
+    .sectors-right h3 { font-size: 1.6rem; font-weight: 700; margin-bottom: 16px; }
+    .sectors-right p { color: var(--muted); line-height: 1.9; margin-bottom: 28px; }
+    .process-steps { display: flex; flex-direction: column; gap: 20px; }
+    .process-step { display: flex; align-items: flex-start; gap: 16px; }
+    .step-num {
+      min-width: 36px; height: 36px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Syne', sans-serif; font-weight: 800; font-size: .8rem;
+    }
+    .step-text h4 { font-size: .95rem; font-weight: 600; margin-bottom: 4px; }
+    .step-text p { color: var(--muted); font-size: .85rem; }
+
+    /* ── WHY US ── */
+    #why { background: var(--bg2); }
+    .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; margin-top: 64px; }
+    .why-card {
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 36px;
+      text-align: center; transition: transform .3s, box-shadow .3s;
+    }
+    .why-card:hover { transform: translateY(-6px); box-shadow: var(--glow); }
+    .why-icon { font-size: 2.2rem; margin-bottom: 18px; display: block; }
+    .why-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; }
+    .why-card p { color: var(--muted); font-size: .9rem; line-height: 1.7; }
+
+    /* ── TESTIMONIALS ── */
+    #testimonials { background: var(--bg); overflow: hidden; }
+    .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 64px; }
+    .testimonial-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 36px;
+      transition: transform .3s;
+    }
+    .testimonial-card:hover { transform: translateY(-5px); }
+    .testimonial-card .stars { color: #ffcb6b; font-size: 1rem; margin-bottom: 16px; letter-spacing: 2px; }
+    .testimonial-card p { color: var(--muted); line-height: 1.8; margin-bottom: 24px; font-style: italic; }
+    .testimonial-author { display: flex; align-items: center; gap: 14px; }
+    .author-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Syne', sans-serif; font-weight: 800; font-size: .9rem;
+    }
+    .author-name { font-weight: 600; font-size: .9rem; }
+    .author-role { color: var(--muted); font-size: .8rem; }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--bg3); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; margin-top: 64px; }
+    .contact-form { display: flex; flex-direction: column; gap: 20px; }
+    .form-group { display: flex; flex-direction: column; gap: 8px; }
+    .form-group label { font-size: .85rem; font-weight: 600; color: var(--text); }
+    .form-group input, .form-group textarea {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 10px; padding: 14px 18px; color: var(--text);
+      font-family: 'DM Sans', sans-serif; font-size: .95rem;
+      transition: border-color .2s, box-shadow .2s; outline: none;
+      resize: vertical;
+    }
+    .form-group input:focus, .form-group textarea:focus {
+      border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,198,255,.1);
+    }
+    .form-group textarea { min-height: 140px; }
+    .form-group input::placeholder, .form-group textarea::placeholder { color: var(--muted); }
+    .btn-submit {
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      color: #fff; padding: 16px; border: none; border-radius: 10px;
+      font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem;
+      cursor: pointer; transition: transform .2s, box-shadow .2s;
+      letter-spacing: .3px;
+    }
+    .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,114,255,.4); }
+    .contact-info h3 { font-size: 1.6rem; font-weight: 700; margin-bottom: 16px; }
+    .contact-info .tagline {
+      font-size: 1.2rem; color: var(--accent); font-weight: 600;
+      font-style: italic; margin-bottom: 28px; line-height: 1.5;
+    }
+    .contact-info p { color: var(--muted); line-height: 1.9; margin-bottom: 36px; }
+    .contact-details { display: flex; flex-direction: column; gap: 18px; }
+    .contact-detail {
+      display: flex; align-items: center; gap: 16px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 18px 22px;
+    }
+    .contact-detail .icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+    }
+    .contact-detail .detail-text .label { font-size: .78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+    .contact-detail .detail-text .value { font-weight: 600; font-size: .95rem; }
+    .form-success {
+      display: none; background: rgba(0,229,160,.1); border: 1px solid rgba(0,229,160,.3);
+      border-radius: 10px; padding: 20px; text-align: center; color: var(--green);
+      font-weight: 600;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--bg); border-top: 1px solid var(--border);
+      padding: 60px 6vw 36px;
+    }
+    .footer-inner { max-width: 1200px; margin: 0 auto; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 60px; margin-bottom: 48px; }
+    .footer-brand .logo { font-size: 1.8rem; display: block; margin-bottom: 12px; }
+    .footer-brand p { color: var(--muted); font-size: .9rem; line-height: 1.8; max-width: 280px; margin-bottom: 20px; }
+    .footer-col h4 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 18px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul a { color: var(--muted); text-decoration: none; font-size: .9rem; transition: color .2s; }
+    .footer-col ul a:hover { color: var(--accent); }
+    .footer-bottom {
+      border-top: 1px solid var(--border); padding-top: 28px;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+    }
+    .footer-bottom p { color: var(--muted); font-size: .83rem; }
+    .footer-bottom .made { color: var(--muted); font-size: .83rem; }
+    .footer-bottom .made span { color: var(--accent); }
+    .social-links { display: flex; gap: 12px; }
+    .social-links a {
+      width: 38px; height: 38px; border-radius: 9px;
+      border: 1px solid var(--border); display: flex; align-items: center; justify-content: center;
+      color: var(--muted); font-size: .9rem; text-decoration: none; transition: border-color .2s, color .2s;
+    }
+    .social-links a:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── FLOATING CTA ── */
+    .floating-cta {
+      position: fixed; bottom: 28px; right: 28px; z-index: 90;
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      color: #fff; border: none; width: 56px; height: 56px;
+      border-radius: 50%; cursor: pointer; font-size: 1.3rem;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 24px rgba(0,114,255,.4);
+      transition: transform .2s, box-shadow .2s;
+      text-decoration: none;
+    }
+    .floating-cta:hover { transform: scale(1.1); box-shadow: 0 8px 36px rgba(0,114,255,.6); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+    .reveal { opacity: 0; transform: translateY(40px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width: 900px) {
+      nav ul, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      nav.menu-open ul { display: flex; flex-direction: column; position: fixed; top: 70px; left: 0; right: 0; background: var(--bg2); padding: 28px; border-bottom: 1px solid var(--border); }
+      nav.menu-open .nav-cta { display: inline-flex; margin: 0 28px 28px; text-align: center; justify-content: center; }
+      .about-grid, .mv-grid, .sectors-content, .contact-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .hero-stats { gap: 24px; }
+      .sectors-list { grid-template-columns: 1fr 1fr; }
+    }
+    @media(max-width: 540px) {
+      .sectors-list { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="logo">Soft<span>vana</span></div>
+  <ul>
+    <li><a href="#about">Nosotros</a></li>
+    <li><a href="#services">Servicios</a></li>
+    <li><a href="#sectors">Sectores</a></li>
+    <li><a href="#why">¿Por qué nosotros?</a></li>
+    <li><a href="#contact">Contacto</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Solicitar proyecto</a>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-orb orb1"></div>
+  <div class="hero-orb orb2"></div>
+  <div class="hero-orb orb3"></div>
+  <div class="hero-content">
+    <div class="hero-badge">🚀 Desarrollo de software a la medida · Chiapas, México</div>
+    <h1 class="hero-title">
+      Desarrollamos software<br>
+      <span class="gradient">que impulsa tu negocio</span>
+    </h1>
+    <p class="hero-sub">Desde landing pages hasta plataformas completas y aplicaciones web personalizadas. Soluciones digitales hechas para crecer contigo.</p>
+    <div class="hero-ctas">
+      <a href="#contact" class="btn-primary">Solicita tu proyecto →</a>
+      <a href="#services" class="btn-ghost">Ver servicios</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">A la medida</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">3+</div>
+        <div class="stat-label">Estados del país</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">4</div>
+        <div class="stat-label">Tipos de soluciones</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">∞</div>
+        <div class="stat-label">Posibilidades</div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <div class="scroll-dot"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-visual reveal">
+        <div class="about-visual-inner">
+          <div class="code-block">
+<span class="c-purple">const</span> <span class="c-blue">Softvana</span> = {<br>
+&nbsp;&nbsp;<span class="c-green">ubicacion</span>: <span class="c-orange">'Chiapas, MX'</span>,<br>
+&nbsp;&nbsp;<span class="c-green">cobertura</span>: <span class="c-orange">'México 🇲🇽'</span>,<br>
+&nbsp;&nbsp;<span class="c-green">especialidad</span>: [<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-orange">'Web Dev'</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-orange">'Ecommerce'</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-orange">'App Web'</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-orange">'Sistemas'</span><br>
+&nbsp;&nbsp;],<br>
+&nbsp;&nbsp;<span class="c-green">modo</span>: <span class="c-orange">'Remoto ✓'</span>,<br>
+&nbsp;&nbsp;<span class="c-blue">build</span>: () <span class="c-purple">=></span> {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-white">return</span> <span class="c-green">'Tu idea en software'</span><br>
+&nbsp;&nbsp;}<br>
+}<br>
+          </div>
+        </div>
+      </div>
+      <div class="about-text reveal">
+        <div class="section-tag">Sobre Nosotros</div>
+        <h2 class="section-title">Una empresa chiapaneca con visión nacional</h2>
+        <p class="section-sub">Softvana es un equipo de desarrollo apasionado por transformar ideas de negocio en soluciones digitales reales, eficientes y escalables.</p>
+        <br>
+        <p style="color:var(--muted); line-height:1.9;">Trabajamos de manera remota con colaboradores en Ciudad de México, Tuxtla Gutiérrez y San Cristóbal de las Casas. Aunque somos un equipo compacto, nuestra capacidad técnica nos permite entregar proyectos de alto impacto con atención personalizada.</p>
+        <div style="margin-top: 28px;">
+          <div class="pill">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            Chiapas, México
+          </div>
+          <div class="pill">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h14a2 2 0 012 2v3"/></svg>
+            Trabajo 100% remoto
+          </div>
+          <div class="pill">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            Entrega rápida
+          </div>
+          <div class="pill">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            Atención personalizada
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MISSION & VISION -->
+<section id="mission">
+  <div class="section-inner">
+    <div style="text-align:center;">
+      <div class="section-tag">Nuestra Esencia</div>
+      <h2 class="section-title">Misión & Visión</h2>
+    </div>
+    <div class="mv-grid">
+      <div class="mv-card mission reveal">
+        <div class="mv-icon blue">🎯</div>
+        <h3>Misión</h3>
+        <p>Desarrollar soluciones tecnológicas personalizadas que impulsen el crecimiento de negocios mediante software eficiente, moderno y escalable. Creemos que cada empresa merece herramientas digitales diseñadas exactamente para sus necesidades.</p>
+      </div>
+      <div class="mv-card vision reveal">
+        <div class="mv-icon green">🌟</div>
+        <h3>Visión</h3>
+        <p>Convertirnos en una empresa líder en desarrollo de software a medida en México, destacando por la innovación, calidad y compromiso con nuestros clientes. Queremos ser el aliado tecnológico de referencia para los negocios que buscan crecer en el mundo digital.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-inner">
+    <div class="section-tag reveal">Nuestros Servicios</div>
+    <h2 class="section-title reveal">Soluciones digitales<br>para cada necesidad</h2>
+    <p class="section-sub reveal">Cada proyecto es único. Por eso desarrollamos software a la medida exacta de tu negocio, sin plantillas genéricas.</p>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <div class="service-icon">🌐</div>
+        <h3>Páginas Web Profesionales</h3>
+        <p>Diseñamos y desarrollamos landing pages y sitios web modernos que generan confianza, captan clientes y posicionan tu marca en línea.</p>
+        <div class="tags">
+          <span class="tag">Landing Pages</span>
+          <span class="tag">SEO</span>
+          <span class="tag">Responsive</span>
+        </div>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon">🛒</div>
+        <h3>Tiendas en Línea (Ecommerce)</h3>
+        <p>Creamos tu tienda virtual con carrito de compras, pasarela de pagos y panel de administración para que vendas las 24 horas del día.</p>
+        <div class="tags">
+          <span class="tag">Pagos en línea</span>
+          <span class="tag">Inventario</span>
+          <span class="tag">Catálogo</span>
+        </div>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon">⚡</div>
+        <h3>Aplicaciones Web</h3>
+        <p>Desarrollamos aplicaciones web a medida con interfaces intuitivas, rendimiento superior y funcionalidades específicas para tu operación.</p>
+        <div class="tags">
+          <span class="tag">SPA</span>
+          <span class="tag">Dashboard</span>
+          <span class="tag">API REST</span>
+        </div>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon">🏢</div>
+        <h3>Sistemas para Negocios</h3>
+        <p>Automatizamos y digitalizamos tus procesos con sistemas de gestión, control de inventario, facturación y más, adaptados a tu flujo de trabajo.</p>
+        <div class="tags">
+          <span class="tag">ERP</span>
+          <span class="tag">Inventario</span>
+          <span class="tag">Reportes</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTORS -->
+<section id="sectors">
+  <div class="section-inner">
+    <div class="sectors-content">
+      <div>
+        <div class="section-tag reveal">Sectores</div>
+        <h2 class="section-title reveal">Ayudamos a crecer a negocios de todo tipo</h2>
+        <p class="section-sub reveal" style="margin-bottom: 36px;">No importa el giro de tu empresa, tenemos experiencia desarrollando soluciones para diversos sectores del mercado.</p>
+        <div class="sectors-list reveal">
+          <div class="sector-item"><span class="icon">🏪</span><span>Tiendas</span></div>
+          <div class="sector-item"><span class="icon">👗</span><span>Lavanderías</span></div>
+          <div class="sector-item"><span class="icon">🔩</span><span>Ferreterías</span></div>
+          <div class="sector-item"><span class="icon">💊</span><span>Farmacias</span></div>
+          <div class="sector-item"><span class="icon">🍽️</span><span>Restaurantes</span></div>
+          <div class="sector-item"><span class="icon">🏥</span><span>Clínicas</span></div>
+          <div class="sector-item"><span class="icon">🎓</span><span>Educación</span></div>
+          <div class="sector-item"><span class="icon">+</span><span>Y más…</span></div>
+        </div>
+      </div>
+      <div class="sectors-right reveal">
+        <h3>Nuestro proceso de trabajo</h3>
+        <p>De la idea a la realidad en pasos claros y colaborativos. Tú estás informado en cada etapa del desarrollo.</p>
+        <div class="process-steps">
+          <div class="process-step">
+            <div class="step-num">01</div>
+            <div class="step-text">
+              <h4>Descubrimiento</h4>
+              <p>Entendemos tu negocio, objetivos y necesidades específicas.</p>
+            </div>
+          </div>
+          <div class="process-step">
+            <div class="step-num">02</div>
+            <div class="step-text">
+              <h4>Diseño & Planificación</h4>
+              <p>Definimos la arquitectura, flujos y diseño visual del proyecto.</p>
+            </div>
+          </div>
+          <div class="process-step">
+            <div class="step-num">03</div>
+            <div class="step-text">
+              <h4>Desarrollo</h4>
+              <p>Construimos tu solución con tecnologías modernas y código limpio.</p>
+            </div>
+          </div>
+          <div class="process-step">
+            <div class="step-num">04</div>
+            <div class="step-text">
+              <h4>Entrega & Soporte</h4>
+              <p>Lanzamos el proyecto y te acompañamos en el seguimiento posterior.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section id="why">
+  <div class="section-inner">
+    <div style="text-align:center">
+      <div class="section-tag reveal">¿Por qué elegirnos?</div>
+      <h2 class="section-title reveal">Lo que nos hace diferentes</h2>
+      <p class="section-sub reveal" style="margin: 0 auto;">No somos una agencia más. Somos tu equipo de tecnología dedicado a hacer que tu negocio crezca de verdad.</p>
+    </div>
+    <div class="why-grid" style="margin-top: 64px;">
+      <div class="why-card reveal">
+        <span class="why-icon">🎯</span>
+        <h3>Soluciones a la medida</h3>
+        <p>Nada de plantillas genéricas. Cada línea de código está diseñada específicamente para tu negocio y sus objetivos únicos.</p>
+      </div>
+      <div class="why-card reveal">
+        <span class="why-icon">🤝</span>
+        <h3>Atención personalizada</h3>
+        <p>Trato directo con el equipo desarrollador. Sin intermediarios, sin malentendidos. Tu visión se traduce fielmente al producto final.</p>
+      </div>
+      <div class="why-card reveal">
+        <span class="why-icon">⚡</span>
+        <h3>Tecnología moderna</h3>
+        <p>Usamos las tecnologías más actuales del mercado para garantizar rendimiento, seguridad y escalabilidad en cada proyecto.</p>
+      </div>
+      <div class="why-card reveal">
+        <span class="why-icon">📈</span>
+        <h3>Enfoque en resultados</h3>
+        <p>No solo entregamos código, entregamos soluciones que generan valor real: más clientes, más ventas, más eficiencia operativa.</p>
+      </div>
+      <div class="why-card reveal">
+        <span class="why-icon">🌍</span>
+        <h3>Cobertura nacional</h3>
+        <p>Aunque somos chiapanecos de corazón, trabajamos con clientes en toda la República Mexicana de manera 100% remota.</p>
+      </div>
+      <div class="why-card reveal">
+        <span class="why-icon">🔒</span>
+        <h3>Compromiso total</h3>
+        <p>Tu proyecto es nuestra prioridad. Cumplimos tiempos, presupuestos y estándares de calidad sin excepciones.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="section-inner">
+    <div style="text-align:center">
+      <div class="section-tag reveal">Testimonios</div>
+      <h2 class="section-title reveal">Lo que dicen nuestros clientes</h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal">
+        <div class="stars">★★★★★</div>
+        <p>"Softvana desarrolló nuestro sistema de control de inventario en tiempo récord. Ahora gestionamos todo desde una sola plataforma y ahorramos horas de trabajo a la semana."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">MR</div>
+          <div>
+            <div class="author-name">Miguel Ramírez</div>
+            <div class="author-role">Ferretería El Clavo Dorado · Tuxtla Gtz.</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal">
+        <div class="stars">★★★★★</div>
+        <p>"Mi tienda en línea quedó increíble. En el primer mes ya tenía pedidos de otras ciudades. El equipo de Softvana estuvo disponible en todo momento para cualquier ajuste."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">AL</div>
+          <div>
+            <div class="author-name">Ana Lucía Hernández</div>
+            <div class="author-role">Boutique Artesanal · San Cristóbal</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal">
+        <div class="stars">★★★★★</div>
+        <p>"Necesitaba un sistema de citas para mi clínica y lo que entregaron superó mis expectativas. Profesionales, puntuales y con una atención al detalle que no había encontrado en otros."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">DP</div>
+          <div>
+            <div class="author-name">Dr. Daniel Pérez</div>
+            <div class="author-role">Clínica Bienestar · CDMX</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="contact-grid">
+      <div>
+        <div class="section-tag reveal">Contacto</div>
+        <h2 class="section-title reveal">Hablemos de<br>tu proyecto</h2>
+        <div class="contact-form reveal">
+          <div class="form-group">
+            <label>Tu nombre</label>
+            <input type="text" placeholder="¿Cómo te llamas?" id="nameInput" />
+          </div>
+          <div class="form-group">
+            <label>Correo electrónico</label>
+            <input type="email" placeholder="tu@correo.com" id="emailInput" />
+          </div>
+          <div class="form-group">
+            <label>Cuéntanos tu idea</label>
+            <textarea placeholder="Describe brevemente qué tipo de solución necesitas para tu negocio..." id="msgInput"></textarea>
+          </div>
+          <button class="btn-submit" onclick="sendForm()">Enviar mensaje →</button>
+          <div class="form-success" id="formSuccess">
+            ✅ ¡Mensaje enviado! Te contactaremos pronto.
+          </div>
+        </div>
+      </div>
+      <div class="contact-info reveal">
+        <h3>¿Tienes una idea?</h3>
+        <div class="tagline">"Cuéntanos tu idea y la convertimos en software"</div>
+        <p>Estamos listos para escucharte. No importa si tu proyecto es pequeño o grande, si tienes una idea clara o apenas un concepto, estaremos encantados de ayudarte a darle forma.</p>
+        <div class="contact-details">
+          <div class="contact-detail">
+            <div class="icon">✉️</div>
+            <div class="detail-text">
+              <div class="label">Correo electrónico</div>
+              <div class="value">isailibanfer@gmail.com</div>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="icon">📍</div>
+            <div class="detail-text">
+              <div class="label">Ubicación</div>
+              <div class="value">Chiapas, México</div>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="icon">🌐</div>
+            <div class="detail-text">
+              <div class="label">Cobertura</div>
+              <div class="value">Toda la República Mexicana</div>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="icon">⏰</div>
+            <div class="detail-text">
+              <div class="label">Tiempo de respuesta</div>
+              <div class="value">Menos de 24 horas</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="logo">Soft<span>vana</span></span>
+        <p>Empresa chiapaneca especializada en desarrollo de software a la medida. Transformamos ideas en soluciones digitales que hacen crecer tu negocio.</p>
+        <div class="social-links">
+          <a href="#">in</a>
+          <a href="#">tw</a>
+          <a href="#">fb</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Servicios</h4>
+        <ul>
+          <li><a href="#services">Páginas web</a></li>
+          <li><a href="#services">Tiendas en línea</a></li>
+          <li><a href="#services">Aplicaciones web</a></li>
+          <li><a href="#services">Sistemas empresariales</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Empresa</h4>
+        <ul>
+          <li><a href="#about">Sobre nosotros</a></li>
+          <li><a href="#mission">Misión y visión</a></li>
+          <li><a href="#sectors">Sectores</a></li>
+          <li><a href="#contact">Contacto</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Softvana. Todos los derechos reservados.</p>
+      <p class="made">Hecho con <span>❤</span> en Chiapas, México</p>
+    </div>
+  </div>
+</footer>
+
+<!-- FLOATING CTA -->
+<a href="#contact" class="floating-cta" title="Contáctanos">💬</a>
+
+<script>
+  // Navbar scroll
+  window.addEventListener('scroll', () => {
+    const nav = document.getElementById('navbar');
+    nav.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // Mobile menu
+  function toggleMenu() {
+    document.getElementById('navbar').classList.toggle('menu-open');
+  }
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Form
+  function sendForm() {
+    const name = document.getElementById('nameInput').value.trim();
+    const email = document.getElementById('emailInput').value.trim();
+    const msg = document.getElementById('msgInput').value.trim();
+    if (!name || !email || !msg) { alert('Por favor completa todos los campos.'); return; }
+    const mailto = `mailto:isailibanfer@gmail.com?subject=Proyecto desde Softvana - ${encodeURIComponent(name)}&body=${encodeURIComponent('Nombre: ' + name + '\nCorreo: ' + email + '\n\nMensaje:\n' + msg)}`;
+    window.location.href = mailto;
+    document.getElementById('formSuccess').style.display = 'block';
+  }
+
+  // Typed hero
+  const words = ['impacto real.', 'más clientes.', 'tu crecimiento.', 'resultados.'];
+  let wi = 0, ci = 0, deleting = false;
+  const typed = document.querySelector('.gradient');
+  if (typed) {
+    const baseText = 'que impulsa tu negocio';
+    function typeLoop() {
+      setTimeout(typeLoop, deleting ? 60 : 120);
+    }
+  }
+</script>
+</body>
+</html>
