@@ -204,15 +204,29 @@
       display: flex; align-items: center; justify-content: center;
       position: relative; overflow: hidden;
     }
-    .code-block {
-      font-family: 'Courier New', monospace; font-size: .78rem;
-      color: var(--muted); line-height: 1.9; padding: 32px; text-align: left;
+    .code-block { display: none; }
+    .tech-stack-visual { padding: 32px; width: 100%; }
+    .tech-title { font-family: 'Syne', sans-serif; font-size: .7rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 24px; }
+    .tech-rows { display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
+    .tech-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .tech-chip {
+      display: inline-flex; align-items: center; gap: 8px;
+      border-radius: 50px; padding: 8px 16px; font-size: .78rem; font-weight: 600;
+      border: 1px solid; letter-spacing: .3px;
+      animation: chipPulse 3s ease-in-out infinite;
     }
-    .code-block .c-purple { color: #c792ea; }
-    .code-block .c-blue { color: var(--accent); }
-    .code-block .c-green { color: var(--green); }
-    .code-block .c-orange { color: #ffcb6b; }
-    .code-block .c-white { color: var(--text); }
+    .tech-chip:nth-child(2) { animation-delay: .4s; }
+    @keyframes chipPulse { 0%,100%{opacity:1; transform:translateY(0)} 50%{opacity:.75; transform:translateY(-2px)} }
+    .chip-blue { color: var(--accent); background: rgba(0,198,255,.08); border-color: rgba(0,198,255,.25); }
+    .chip-green { color: var(--green); background: rgba(0,229,160,.08); border-color: rgba(0,229,160,.25); }
+    .chip-purple { color: #c084fc; background: rgba(192,132,252,.08); border-color: rgba(192,132,252,.25); }
+    .chip-orange { color: #ffcb6b; background: rgba(255,203,107,.08); border-color: rgba(255,203,107,.25); }
+    .chip-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+    .tech-bar-group { display: flex; flex-direction: column; gap: 14px; }
+    .tech-bar-label { display: flex; justify-content: space-between; font-size: .75rem; color: var(--muted); margin-bottom: 5px; }
+    .tech-bar-track { width: 100%; height: 5px; background: rgba(255,255,255,.06); border-radius: 10px; overflow: hidden; }
+    .tech-bar-fill { height: 100%; border-radius: 10px; animation: barGrow 1.5s ease forwards; }
+    @keyframes barGrow { from { width: 0 !important; } }
     .about-visual::after {
       content: ''; position: absolute; inset: 0;
       background: linear-gradient(135deg, rgba(0,114,255,.08), rgba(0,229,160,.06));
@@ -323,6 +337,43 @@
     .why-icon { font-size: 2.2rem; margin-bottom: 18px; display: block; }
     .why-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; }
     .why-card p { color: var(--muted); font-size: .9rem; line-height: 1.7; }
+
+    /* ── HOW WE HELP YOU GROW ── */
+    #grow { background: var(--bg3); }
+    .grow-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 28px; margin-top: 64px; }
+    .grow-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 44px 36px;
+      position: relative; overflow: hidden;
+      transition: transform .3s, border-color .3s, box-shadow .3s;
+    }
+    .grow-card:hover { transform: translateY(-8px); border-color: rgba(0,198,255,.35); box-shadow: var(--glow); }
+    .grow-card::before {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--accent2), var(--accent), var(--green));
+      transform: scaleX(0); transform-origin: left; transition: transform .4s ease;
+    }
+    .grow-card:hover::before { transform: scaleX(1); }
+    .grow-card-num {
+      font-family: 'Syne', sans-serif; font-size: 3.5rem; font-weight: 800;
+      background: linear-gradient(135deg, rgba(0,198,255,.15), rgba(0,229,160,.1));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      line-height: 1; margin-bottom: 16px;
+    }
+    .grow-icon-wrap {
+      width: 56px; height: 56px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 20px;
+    }
+    .grow-icon-wrap svg { width: 28px; height: 28px; }
+    .grow-card h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 14px; }
+    .grow-card p { color: var(--muted); font-size: .92rem; line-height: 1.8; margin-bottom: 20px; }
+    .grow-card .grow-features { display: flex; flex-direction: column; gap: 8px; }
+    .grow-feature {
+      display: flex; align-items: center; gap: 10px;
+      font-size: .84rem; color: var(--muted);
+    }
+    .grow-feature::before { content: '→'; color: var(--accent); font-weight: 700; flex-shrink: 0; }
 
     /* ── TESTIMONIALS ── */
     #testimonials { background: var(--bg); overflow: hidden; }
@@ -469,8 +520,9 @@
   <ul>
     <li><a href="#about">Nosotros</a></li>
     <li><a href="#services">Servicios</a></li>
+    <li><a href="#grow">Soluciones</a></li>
     <li><a href="#sectors">Sectores</a></li>
-    <li><a href="#why">¿Por qué nosotros?</a></li>
+    <li><a href="">Becarios</a></li>
     <li><a href="#contact">Contacto</a></li>
   </ul>
   <a href="#contact" class="nav-cta">Solicitar proyecto</a>
@@ -488,10 +540,10 @@
   <div class="hero-content">
     <div class="hero-badge">🚀 Desarrollo de software a la medida · Chiapas, México</div>
     <h1 class="hero-title">
-      Desarrollamos software<br>
-      <span class="gradient">que impulsa tu negocio</span>
+      Transformamos tus ideas<br>
+      <span class="gradient">en soluciones tecnológicas</span>
     </h1>
-    <p class="hero-sub">Desde landing pages hasta plataformas completas y aplicaciones web personalizadas. Soluciones digitales hechas para crecer contigo.</p>
+    <p class="hero-sub">Convertimos los desafíos de tu negocio en aplicaciones web, plataformas a la medida e inteligencia de datos que optimizan procesos, reducen costos y generan resultados reales.</p>
     <div class="hero-ctas">
       <a href="#contact" class="btn-primary">Solicita tu proyecto →</a>
       <a href="#services" class="btn-ghost">Ver servicios</a>
@@ -527,21 +579,47 @@
     <div class="about-grid">
       <div class="about-visual reveal">
         <div class="about-visual-inner">
-          <div class="code-block">
-<span class="c-purple">const</span> <span class="c-blue">Softvana</span> = {<br>
-&nbsp;&nbsp;<span class="c-green">ubicacion</span>: <span class="c-orange">'Chiapas, MX'</span>,<br>
-&nbsp;&nbsp;<span class="c-green">cobertura</span>: <span class="c-orange">'México 🇲🇽'</span>,<br>
-&nbsp;&nbsp;<span class="c-green">especialidad</span>: [<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-orange">'Web Dev'</span>,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-orange">'Ecommerce'</span>,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-orange">'App Web'</span>,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-orange">'Sistemas'</span><br>
-&nbsp;&nbsp;],<br>
-&nbsp;&nbsp;<span class="c-green">modo</span>: <span class="c-orange">'Remoto ✓'</span>,<br>
-&nbsp;&nbsp;<span class="c-blue">build</span>: () <span class="c-purple">=></span> {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-white">return</span> <span class="c-green">'Tu idea en software'</span><br>
-&nbsp;&nbsp;}<br>
-}<br>
+          <div class="tech-stack-visual">
+            <div class="tech-title">Stack & Capacidades</div>
+            <div class="tech-rows">
+              <div class="tech-row">
+                <div class="tech-chip chip-blue">
+                  <span class="chip-dot"></span>Inteligencia Artificial
+                </div>
+                <div class="tech-chip chip-green">
+                  <span class="chip-dot"></span>NLP
+                </div>
+              </div>
+              <div class="tech-row">
+                <div class="tech-chip chip-purple">
+                  <span class="chip-dot"></span>Análisis de Datos
+                </div>
+                <div class="tech-chip chip-blue">
+                  <span class="chip-dot"></span>MCPs
+                </div>
+              </div>
+              <div class="tech-row">
+                <div class="tech-chip chip-orange">
+                  <span class="chip-dot"></span>Web Scraping
+                </div>
+                <div class="tech-chip chip-green">
+                  <span class="chip-dot"></span>Data Analytics
+                </div>
+              </div>
+              <div class="tech-row">
+                <div class="tech-chip chip-purple">
+                  <span class="chip-dot"></span>Marketing Data-Driven
+                </div>
+              </div>
+            </div>
+            <div class="tech-bar-group">
+              <div class="tech-bar-label"><span>Automatización</span><span>94%</span></div>
+              <div class="tech-bar-track"><div class="tech-bar-fill" style="width:94%; background: linear-gradient(90deg,var(--accent2),var(--accent));"></div></div>
+              <div class="tech-bar-label"><span>Inteligencia de Datos</span><span>88%</span></div>
+              <div class="tech-bar-track"><div class="tech-bar-fill" style="width:88%; background: linear-gradient(90deg,#7c3aed,var(--accent));"></div></div>
+              <div class="tech-bar-label"><span>Desarrollo Web</span><span>97%</span></div>
+              <div class="tech-bar-track"><div class="tech-bar-fill" style="width:97%; background: linear-gradient(90deg,var(--accent),var(--green));"></div></div>
+            </div>
           </div>
         </div>
       </div>
@@ -583,12 +661,16 @@
     </div>
     <div class="mv-grid">
       <div class="mv-card mission reveal">
-        <div class="mv-icon blue">🎯</div>
+        <div class="mv-icon blue">
+          <svg width="26" height="26" fill="none" stroke="var(--accent)" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4" fill="rgba(0,198,255,.2)" stroke="var(--accent)"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/></svg>
+        </div>
         <h3>Misión</h3>
         <p>Desarrollar soluciones tecnológicas personalizadas que impulsen el crecimiento de negocios mediante software eficiente, moderno y escalable. Creemos que cada empresa merece herramientas digitales diseñadas exactamente para sus necesidades.</p>
       </div>
       <div class="mv-card vision reveal">
-        <div class="mv-icon green">🌟</div>
+        <div class="mv-icon green">
+          <svg width="26" height="26" fill="none" stroke="var(--green)" stroke-width="1.8" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="rgba(0,229,160,.15)"/></svg>
+        </div>
         <h3>Visión</h3>
         <p>Convertirnos en una empresa líder en desarrollo de software a medida en México, destacando por la innovación, calidad y compromiso con nuestros clientes. Queremos ser el aliado tecnológico de referencia para los negocios que buscan crecer en el mundo digital.</p>
       </div>
@@ -600,47 +682,67 @@
 <section id="services">
   <div class="section-inner">
     <div class="section-tag reveal">Nuestros Servicios</div>
-    <h2 class="section-title reveal">Soluciones digitales<br>para cada necesidad</h2>
-    <p class="section-sub reveal">Cada proyecto es único. Por eso desarrollamos software a la medida exacta de tu negocio, sin plantillas genéricas.</p>
+    <h2 class="section-title reveal">Soluciones 360° para<br>hacer crecer tu negocio</h2>
+    <p class="section-sub reveal">No vendemos solo software. Entregamos resultados: más ventas, procesos optimizados y ventaja competitiva real en el mercado digital.</p>
     <div class="services-grid">
       <div class="service-card reveal">
         <div class="service-icon">🌐</div>
-        <h3>Páginas Web Profesionales</h3>
-        <p>Diseñamos y desarrollamos landing pages y sitios web modernos que generan confianza, captan clientes y posicionan tu marca en línea.</p>
+        <h3>Presencia Digital que Convierte</h3>
+        <p>Tu sitio web no es solo una tarjeta de presentación, es tu mejor vendedor. Creamos páginas y landing pages diseñadas para captar leads y cerrar clientes en automático.</p>
         <div class="tags">
           <span class="tag">Landing Pages</span>
           <span class="tag">SEO</span>
-          <span class="tag">Responsive</span>
+          <span class="tag">+Conversiones</span>
         </div>
       </div>
       <div class="service-card reveal">
         <div class="service-icon">🛒</div>
-        <h3>Tiendas en Línea (Ecommerce)</h3>
-        <p>Creamos tu tienda virtual con carrito de compras, pasarela de pagos y panel de administración para que vendas las 24 horas del día.</p>
+        <h3>Tiendas que Venden 24/7</h3>
+        <p>Abre tu negocio al mundo sin cerrar nunca. Construimos tu ecommerce con experiencia de compra fluida, pasarelas de pago seguras y gestión inteligente de inventario.</p>
         <div class="tags">
           <span class="tag">Pagos en línea</span>
           <span class="tag">Inventario</span>
-          <span class="tag">Catálogo</span>
+          <span class="tag">Ventas automatizadas</span>
         </div>
       </div>
       <div class="service-card reveal">
         <div class="service-icon">⚡</div>
-        <h3>Aplicaciones Web</h3>
-        <p>Desarrollamos aplicaciones web a medida con interfaces intuitivas, rendimiento superior y funcionalidades específicas para tu operación.</p>
+        <h3>Aplicaciones Web a la Medida</h3>
+        <p>Plataformas robustas y escalables construidas exactamente para tu operación. Sin límites, sin compromisos. Tu negocio merece una herramienta diseñada solo para él.</p>
         <div class="tags">
-          <span class="tag">SPA</span>
+          <span class="tag">SPA / PWA</span>
           <span class="tag">Dashboard</span>
           <span class="tag">API REST</span>
         </div>
       </div>
       <div class="service-card reveal">
+        <div class="service-icon">🤖</div>
+        <h3>Inteligencia Artificial & Datos</h3>
+        <p>Integra IA, procesamiento de lenguaje natural y análisis de datos en tu negocio. Automatiza decisiones, anticipa tendencias y convierte tus datos en ventaja competitiva.</p>
+        <div class="tags">
+          <span class="tag">IA / NLP</span>
+          <span class="tag">Data Analytics</span>
+          <span class="tag">Automatización</span>
+        </div>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon">📊</div>
+        <h3>Marketing Basado en Datos</h3>
+        <p>Decisiones de marketing fundamentadas en evidencia, no en intuición. Implementamos estrategias data-driven con análisis de campañas, web scraping y dashboards de inteligencia comercial.</p>
+        <div class="tags">
+          <span class="tag">Data-Driven</span>
+          <span class="tag">Web Scraping</span>
+          <span class="tag">Analytics</span>
+        </div>
+      </div>
+      <div class="service-card reveal">
         <div class="service-icon">🏢</div>
-        <h3>Sistemas para Negocios</h3>
-        <p>Automatizamos y digitalizamos tus procesos con sistemas de gestión, control de inventario, facturación y más, adaptados a tu flujo de trabajo.</p>
+        <h3>Sistemas que Liberan tu Tiempo</h3>
+        <p>Elimina tareas repetitivas y errores humanos. Digitalizamos y automatizamos tus procesos operativos con sistemas de gestión a la medida de tu flujo de trabajo real.</p>
         <div class="tags">
           <span class="tag">ERP</span>
-          <span class="tag">Inventario</span>
-          <span class="tag">Reportes</span>
+          <span class="tag">MCPs</span>
+          <span class="tag">Automatización</span>
         </div>
       </div>
     </div>
@@ -742,6 +844,58 @@
         <span class="why-icon">🔒</span>
         <h3>Compromiso total</h3>
         <p>Tu proyecto es nuestra prioridad. Cumplimos tiempos, presupuestos y estándares de calidad sin excepciones.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW WE HELP YOU GROW -->
+<section id="grow">
+  <div class="section-inner">
+    <div style="text-align:center">
+      <div class="section-tag reveal">Soluciones Integrales</div>
+      <h2 class="section-title reveal">¿Cómo podemos ayudarte<br>a crecer?</h2>
+      <p class="section-sub reveal" style="margin: 0 auto 0;">Combinamos tecnología, diseño y estrategia en un solo equipo para que tu negocio escale de forma sostenible y competitiva.</p>
+    </div>
+    <div class="grow-grid">
+      <div class="grow-card reveal">
+        <div class="grow-icon-wrap" style="background: rgba(0,198,255,.1); border: 1px solid rgba(0,198,255,.2);">
+          <svg fill="none" stroke="var(--accent)" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        </div>
+        <h3>Desarrollo Web & Apps a la Medida</h3>
+        <p>Construimos la plataforma digital exacta que tu negocio necesita para operar, escalar y diferenciarse de la competencia. Cada funcionalidad es pensada para resolver un problema real tuyo.</p>
+        <div class="grow-features">
+          <div class="grow-feature">Aplicaciones web rápidas y escalables</div>
+          <div class="grow-feature">Integración con tus sistemas actuales</div>
+          <div class="grow-feature">Paneles de administración intuitivos</div>
+          <div class="grow-feature">Arquitectura preparada para crecer</div>
+        </div>
+      </div>
+      <div class="grow-card reveal">
+        <div class="grow-icon-wrap" style="background: rgba(192,132,252,.1); border: 1px solid rgba(192,132,252,.2);">
+          <svg fill="none" stroke="#c084fc" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </div>
+        <h3>Diseño de Experiencia de Usuario UI/UX</h3>
+        <p>Un buen producto no basta si no es fácil de usar. Diseñamos interfaces que enamoran a tus usuarios desde el primer clic, reducen la fricción y convierten visitantes en clientes fieles.</p>
+        <div class="grow-features">
+          <div class="grow-feature">Investigación y mapeo de usuario</div>
+          <div class="grow-feature">Wireframes y prototipos interactivos</div>
+          <div class="grow-feature">Diseño visual con identidad de marca</div>
+          <div class="grow-feature">Testing de usabilidad y optimización</div>
+        </div>
+      </div>
+      <div class="grow-card reveal">
+        <div class="grow-icon-wrap" style="background: rgba(0,229,160,.1); border: 1px solid rgba(0,229,160,.2);">
+          <svg fill="none" stroke="var(--green)" stroke-width="1.8" viewBox="0 0 24 24"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+        </div>
+        <h3>Estrategia de Marketing Digital</h3>
+        <p>El mejor software del mundo no sirve sin visibilidad. Diseñamos estrategias de marketing digital basadas en datos reales para que llegues a tus clientes ideales, en el momento justo y con el mensaje correcto.</p>
+        <div class="grow-features">
+          <div class="grow-feature">Estrategia de contenidos y SEO</div>
+          <div class="grow-feature">Campañas data-driven con analítica avanzada</div>
+          <div class="grow-feature">Automatización de embudos de conversión</div>
+          <div class="grow-feature">Reportes de rendimiento en tiempo real</div>
+        </div>
       </div>
     </div>
   </div>
