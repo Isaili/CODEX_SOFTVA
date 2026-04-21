@@ -31,7 +31,8 @@
       font-family: 'DM Sans', sans-serif;
       font-size: 16px;
       line-height: 1.7;
-      overflow-x: hidden;
+      overflow-x: hidden; /* previene scroll horizontal en todo el sitio */
+      width: 100%;
     }
     h1,h2,h3,h4 { font-family: 'Syne', sans-serif; line-height: 1.15; }
 
@@ -81,8 +82,10 @@
       min-height: 100vh;
       display: flex; align-items: center; justify-content: center;
       text-align: center;
+      /* padding lateral generoso en desktop, más compacto en móvil vía @media */
       padding: 120px 6vw 80px;
       position: relative;
+      /* overflow:hidden contiene los orbs sin crear scroll horizontal */
       overflow: hidden;
     }
     .hero-grid {
@@ -95,64 +98,96 @@
     }
     .hero-orb {
       position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none;
+      /* Los orbs son grandes pero quedan recortados por el overflow:hidden del #hero */
     }
     .orb1 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(0,114,255,.25), transparent 70%); top: -100px; left: -100px; }
     .orb2 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(0,229,160,.18), transparent 70%); bottom: -80px; right: -80px; }
     .orb3 { width: 300px; height: 300px; background: radial-gradient(circle, rgba(0,198,255,.15), transparent 70%); top: 40%; left: 60%; }
-    .hero-content { position: relative; z-index: 2; max-width: 860px; }
+
+    .hero-content {
+      position: relative; z-index: 2;
+      /* width:100% + max-width garantizan que no desborde nunca */
+      width: 100%; max-width: 860px;
+    }
+
     .hero-badge {
       display: inline-flex; align-items: center; gap: 8px;
       background: rgba(0,198,255,.08); border: 1px solid rgba(0,198,255,.2);
-      color: var(--accent); border-radius: 50px; padding: 7px 18px; font-size: .8rem;
-      font-weight: 600; letter-spacing: .5px; margin-bottom: 28px;
+      color: var(--accent); border-radius: 50px; padding: 7px 14px; font-size: .75rem;
+      font-weight: 600; letter-spacing: .3px; margin-bottom: 24px;
       animation: fadeDown .8s ease forwards;
+      /* Evita que el badge sea más ancho que su padre */
+      max-width: 100%; box-sizing: border-box;
+      /* En móvil el texto largo se corta con ellipsis en lugar de desbordarse */
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
-    .hero-badge::before { content: '●'; font-size: .5rem; animation: pulse 2s infinite; }
+    .hero-badge::before { content: '●'; font-size: .5rem; animation: pulse 2s infinite; flex-shrink: 0; }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
     h1.hero-title {
-      font-size: clamp(2.4rem, 6vw, 5.2rem);
-      font-weight: 800;
-      letter-spacing: -2px;
-      margin-bottom: 24px;
+      
+      font-size: clamp(1.2rem, 7vw, 5.2rem);
+      font-weight: 700;
+      letter-spacing: -1px;
+      margin-bottom: 20px;
       animation: fadeUp .9s .1s ease both;
+      
+      word-break: break-word;
+      overflow-wrap: break-word;
     }
     h1.hero-title .gradient {
       background: linear-gradient(135deg, var(--accent), var(--green) 60%, var(--accent2));
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
+
     .hero-sub {
-      font-size: clamp(1rem, 2vw, 1.2rem); color: var(--muted); max-width: 550px;
-      margin: 0 auto 35px; animation: fadeUp .9s .2s ease both;
+      /* mínimo .9rem en móvil, máximo 1.2rem en desktop */
+      font-size: clamp(.9rem, 2.5vw, 1.2rem);
+      color: var(--muted);
+      /* width:100% + max-width evita desbordamiento */
+      width: 100%; max-width: 560px;
+      margin: 0 auto 36px;
+      animation: fadeUp .9s .2s ease both;
     }
-    .hero-ctas { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; animation: fadeUp .9s .3s ease both; }
+
+    /* flex-wrap:wrap hace que los botones bajen a la siguiente línea en pantallas chicas */
+    .hero-ctas {
+      display: flex; gap: 14px; justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeUp .9s .3s ease both;
+    }
     .btn-primary {
       background: linear-gradient(135deg, var(--accent2), var(--accent));
-      color: #fff; padding: 16px 38px; border-radius: 50px;
-      font-family: 'Syne',sans-serif; font-weight: 700; font-size: 1rem;
+      color: #fff; padding: 14px 32px; border-radius: 50px;
+      font-family: 'Syne',sans-serif; font-weight: 700; font-size: .95rem;
       text-decoration: none; transition: transform .2s, box-shadow .2s;
       box-shadow: 0 4px 24px rgba(0,114,255,.35);
+      /* Evita que el texto del botón rompa su contenedor */
+      white-space: nowrap;
     }
     .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,114,255,.5); }
     .btn-ghost {
-      border: 1px solid var(--border); color: var(--text); padding: 16px 38px;
-      border-radius: 50px; font-family: 'Syne',sans-serif; font-weight: 600; font-size: 1rem;
+      border: 1px solid var(--border); color: var(--text); padding: 14px 32px;
+      border-radius: 50px; font-family: 'Syne',sans-serif; font-weight: 600; font-size: .95rem;
       text-decoration: none; transition: border-color .2s, color .2s, background .2s;
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px); white-space: nowrap;
     }
     .btn-ghost:hover { border-color: var(--accent); color: var(--accent); background: rgba(0,198,255,.05); }
+
+    /* gap reducido + flex-wrap aseguran que los stats no rompan el layout */
     .hero-stats {
-      display: flex; gap: 48px; justify-content: center; flex-wrap: wrap;
-      margin-top: 72px; padding-top: 48px;
+      display: flex; gap: 28px; justify-content: center; flex-wrap: wrap;
+      margin-top: 60px; padding-top: 40px;
       border-top: 1px solid var(--border);
       animation: fadeUp .9s .5s ease both;
     }
     .stat-item { text-align: center; }
     .stat-num {
-      font-family: 'Syne', sans-serif; font-size: 2.4rem; font-weight: 800;
+      font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800;
       background: linear-gradient(135deg, var(--accent), var(--green));
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
-    .stat-label { font-size: .85rem; color: var(--muted); }
+    .stat-label { font-size: .82rem; color: var(--muted); }
 
     /* ── SCROLL INDICATOR ── */
     .scroll-indicator {
@@ -503,9 +538,58 @@
       nav.menu-open .nav-cta { display: inline-flex; margin: 0 28px 28px; text-align: center; justify-content: center; }
       .about-grid, .mv-grid, .sectors-content, .contact-grid { grid-template-columns: 1fr; }
       .footer-grid { grid-template-columns: 1fr; }
-      .hero-stats { gap: 24px; }
+      .hero-stats { gap: 20px; }
       .sectors-list { grid-template-columns: 1fr 1fr; }
     }
+
+    /* ── MÓVIL PEQUEÑO: correcciones específicas del Hero ── */
+    @media(max-width: 480px) {
+      /* Padding lateral más amplio para que el texto respire */
+      #hero { padding: 100px 5vw 60px; }
+
+      /* El badge se comprime: texto más corto, sin desbordarse */
+      .hero-badge {
+        font-size: .68rem;
+        padding: 6px 12px;
+        letter-spacing: 0;
+        /* Permite que el texto rompa en 2 líneas antes de usar ellipsis */
+        white-space: normal;
+        text-overflow: clip;
+        max-width: 90%;
+      }
+
+      /* Título controlado: nunca más ancho que la pantalla */
+      h1.hero-title {
+        font-size: clamp(1.55rem, 8.5vw, 2.4rem);
+        letter-spacing: -.5px;
+        line-height: 1.2;
+        /* Fuerza saltos de línea naturales sin overflow */
+        word-break: break-word;
+        overflow-wrap: break-word;
+        hyphens: auto;
+      }
+
+      /* Subtítulo más legible en pantallas pequeñas */
+      .hero-sub { font-size: .9rem; margin-bottom: 28px; }
+
+      /* Botones en columna cuando no caben side-by-side */
+      .hero-ctas { flex-direction: column; align-items: center; gap: 12px; }
+      .btn-primary, .btn-ghost {
+        width: 100%; max-width: 320px;
+        justify-content: center; text-align: center;
+        padding: 14px 24px;
+      }
+
+      /* Stats: 2 por fila en lugar de 4 en línea */
+      .hero-stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-top: 40px; padding-top: 32px;
+      }
+      .stat-num { font-size: 1.8rem; }
+    }
+
     @media(max-width: 540px) {
       .sectors-list { grid-template-columns: 1fr; }
       .footer-bottom { flex-direction: column; text-align: center; }
@@ -522,7 +606,6 @@
     <li><a href="#services">Servicios</a></li>
     <li><a href="#grow">Soluciones</a></li>
     <li><a href="#sectors">Sectores</a></li>
-    <li><a href="">Becarios</a></li>
     <li><a href="#contact">Contacto</a></li>
   </ul>
   <a href="#contact" class="nav-cta">Solicitar proyecto</a>
@@ -539,11 +622,11 @@
   <div class="hero-orb orb3"></div>
   <div class="hero-content">
     <div class="hero-badge">🚀 Desarrollo de software a la medida · Chiapas, México</div>
-<h1 class="hero-title">
-      Desarrollamos software<br>
-      <span class="gradient">que impulsa tu negocio</span>
+    <h1 class="hero-title">
+      Transformamos tus ideas<br>
+      <span class="gradient">en soluciones tecnológicas</span>
     </h1>
-    <p class="hero-sub">Desarrollamos soluciones digitales a medida que optimizan procesos y potencian tu crecimiento.</p>
+    <p class="hero-sub">Convertimos los desafíos de tu negocio en aplicaciones web, plataformas a la medida e inteligencia de datos que optimizan procesos, reducen costos y generan resultados reales.</p>
     <div class="hero-ctas">
       <a href="#contact" class="btn-primary">Solicita tu proyecto →</a>
       <a href="#services" class="btn-ghost">Ver servicios</a>
@@ -765,10 +848,6 @@
           <div class="sector-item"><span class="icon">🍽️</span><span>Restaurantes</span></div>
           <div class="sector-item"><span class="icon">🏥</span><span>Clínicas</span></div>
           <div class="sector-item"><span class="icon">🎓</span><span>Educación</span></div>
-          <div class="sector-item"><span class="icon">📸</span><span>Turismo</span></div>
-          <div class="sector-item"><span class="icon">🚗</span><span>Transporte</span></div>
-          <div class="sector-item"><span class="icon">🏨</span><span>Hoteles</span></div>
-          <div class="sector-item"><span class="icon">🏭</span><span>Empresarial</span></div>
           <div class="sector-item"><span class="icon">+</span><span>Y más…</span></div>
         </div>
       </div>
@@ -1048,7 +1127,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© 2026 Softvana. Todos los derechos reservados.</p>
+      <p>© 2025 Softvana. Todos los derechos reservados.</p>
       <p class="made">Hecho con <span>❤</span> en Chiapas, México</p>
     </div>
   </div>
