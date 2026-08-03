@@ -1,125 +1,604 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" prefix="og: https://ogp.me/ns#">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Becarios | Softvana</title>
-  <link rel="icon" type="image/png" href="../icons/favicon1.png" />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
+
+  <title>Becarios | Softvana — Programa de talento en Chiapas, México</title>
+  <meta name="description" content="Programa de Becarios de Softvana: aprende desarrollo de software a la medida, trabaja en proyectos reales y crece con mentoría directa del equipo. Postúlate desde cualquier parte de México." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://isaili.github.io/CODEX_SOFTVA/becarios/becarios.html" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Programa de Becarios | Softvana" />
+  <meta property="og:description" content="Aprende, construye y crece: el programa de becarios de Softvana para estudiantes y nuevos talentos del desarrollo de software." />
+  <meta property="og:locale" content="es_MX" />
+  <meta property="og:site_name" content="Softvana" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "EducationalOccupationalProgram",
+    "name": "Programa de Becarios Softvana",
+    "description": "Programa de becas y prácticas profesionales en desarrollo de software para estudiantes y nuevos talentos en México.",
+    "provider": {
+      "@type": "Organization",
+      "name": "Softvana",
+      "sameAs": "https://isaili.github.io/CODEX_SOFTVA/"
+    }
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <link rel="icon" type="image/png" href="../icons/favicon.png" />
+  <link rel="apple-touch-icon" href="../icons/favicon1.png" />
+  <meta name="theme-color" content="#050a12" />
+
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #050a12;
+      --bg2: #080f1c;
+      --bg3: #0c1628;
+      --card: #0e1e35;
+      --accent: #00c6ff;
+      --accent2: #0072ff;
+      --green: #00e5a0;
+      --purple: #c084fc;
+      --text: #e8f0fe;
+      --muted: #7a90b0;
+      --border: rgba(0,198,255,0.12);
+      --glow: 0 0 40px rgba(0,198,255,0.18);
+      --radius: 16px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
     body {
-      background: #050a12;
-      color: #e8f0fe;
-      font-family: 'DM Sans', sans-serif;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      overflow: hidden;
-      padding: 24px;
+      background: var(--bg); color: var(--text);
+      font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.7;
+      overflow-x: hidden; width: 100%;
     }
-    .orb {
-      position: fixed; border-radius: 50%;
-      filter: blur(80px); pointer-events: none; z-index: 0;
+    h1,h2,h3,h4 { font-family: 'Syne', sans-serif; line-height: 1.15; }
+    a { color: inherit; }
+
+    body::before {
+      content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      opacity: 0.4;
     }
-    .orb1 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(0,114,255,.2), transparent 70%); top: -100px; left: -100px; }
-    .orb2 { width: 350px; height: 350px; background: radial-gradient(circle, rgba(0,229,160,.15), transparent 70%); bottom: -80px; right: -80px; }
-    .grid {
-      position: fixed; inset: 0; z-index: 0;
+
+    /* ── NAV (idéntico al sitio principal) ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 6vw; background: rgba(5,10,18,0.7);
+      backdrop-filter: blur(20px); border-bottom: 1px solid var(--border);
+      transition: padding .3s;
+    }
+    nav.scrolled { padding: 12px 6vw; }
+    .logo {
+      font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.5rem;
+      background: linear-gradient(90deg, var(--accent), var(--green));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px;
+    }
+    .logo span { -webkit-text-fill-color: var(--muted); font-weight: 400; }
+    nav ul { list-style: none; display: flex; gap: 36px; }
+    nav ul a { color: var(--muted); text-decoration: none; font-size: .9rem; font-weight: 500; transition: color .2s; }
+    nav ul a:hover, nav ul a.active { color: var(--accent); }
+    .nav-cta {
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      color: #fff; border: none; padding: 10px 24px; border-radius: 50px;
+      font-family: 'Syne',sans-serif; font-weight: 700; font-size: .85rem;
+      cursor: pointer; transition: transform .2s, box-shadow .2s;
+      text-decoration: none; letter-spacing: .3px;
+    }
+    .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,114,255,.4); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+    .hamburger span { width: 24px; height: 2px; background: var(--accent); border-radius: 2px; transition: .3s; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 78vh; display: flex; align-items: center;
+      padding: 150px 6vw 80px; position: relative; overflow: hidden;
+    }
+    .hero-grid {
+      position: absolute; inset: 0;
       background-image:
         linear-gradient(rgba(0,198,255,.04) 1px, transparent 1px),
         linear-gradient(90deg, rgba(0,198,255,.04) 1px, transparent 1px);
       background-size: 60px 60px;
-      mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black, transparent);
+      mask-image: radial-gradient(ellipse 80% 60% at 30% 40%, black, transparent);
     }
-    .content {
-      position: relative; z-index: 1;
-      max-width: 560px; width: 100%;
-    }
-    .badge {
+    .hero-orb { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; }
+    .orb1 { width: 480px; height: 480px; background: radial-gradient(circle, rgba(0,114,255,.22), transparent 70%); top: -120px; right: -80px; }
+    .orb2 { width: 380px; height: 380px; background: radial-gradient(circle, rgba(0,229,160,.16), transparent 70%); bottom: -100px; left: -60px; }
+
+    .hero-becarios-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 60px; align-items: center; position: relative; z-index: 2; width: 100%; max-width: 1200px; margin: 0 auto; }
+    .hero-badge {
       display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(0,198,255,.08); border: 1px solid rgba(0,198,255,.2);
-      color: #00c6ff; border-radius: 50px; padding: 7px 18px;
-      font-size: .78rem; font-weight: 600; letter-spacing: .5px;
-      margin-bottom: 32px;
+      background: rgba(0,229,160,.08); border: 1px solid rgba(0,229,160,.2);
+      color: var(--green); border-radius: 50px; padding: 7px 14px; font-size: .75rem;
+      font-weight: 600; letter-spacing: .3px; margin-bottom: 22px;
     }
-    .badge::before { content: '●'; font-size: .5rem; animation: pulse 2s infinite; }
+    .hero-badge::before { content: '●'; font-size: .5rem; animation: pulse 2s infinite; }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
-    .icon { font-size: 4rem; margin-bottom: 24px; animation: float 3s ease-in-out infinite; }
-    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
-    h1 {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(1.8rem, 5vw, 3rem);
-      font-weight: 800; letter-spacing: -1px;
-      margin-bottom: 16px; line-height: 1.15;
+    h1.hero-title {
+      font-size: clamp(2rem, 5.4vw, 3.6rem); font-weight: 800; letter-spacing: -1px;
+      margin-bottom: 20px; word-break: break-word; overflow-wrap: break-word;
     }
-    h1 span {
-      background: linear-gradient(135deg, #00c6ff, #00e5a0);
+    h1.hero-title .gradient {
+      background: linear-gradient(135deg, var(--green), var(--accent) 60%, var(--accent2));
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
-    p { color: #7a90b0; font-size: 1rem; line-height: 1.8; margin-bottom: 40px; }
-    .progress-wrap {
-      background: rgba(255,255,255,.05); border: 1px solid rgba(0,198,255,.12);
-      border-radius: 12px; padding: 20px 24px; margin-bottom: 36px; text-align: left;
+    .hero-sub { font-size: clamp(1rem, 1.6vw, 1.15rem); color: var(--muted); max-width: 520px; margin-bottom: 32px; }
+    .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent2), var(--accent)); color: #fff;
+      padding: 14px 32px; border-radius: 50px; font-family: 'Syne',sans-serif;
+      font-weight: 700; font-size: .95rem; text-decoration: none;
+      transition: transform .2s, box-shadow .2s; box-shadow: 0 4px 24px rgba(0,114,255,.35);
+      white-space: nowrap;
     }
-    .progress-label {
-      display: flex; justify-content: space-between;
-      font-size: .8rem; color: #7a90b0; margin-bottom: 10px;
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,114,255,.5); }
+    .btn-ghost {
+      border: 1px solid var(--border); color: var(--text); padding: 14px 32px;
+      border-radius: 50px; font-family: 'Syne',sans-serif; font-weight: 600; font-size: .95rem;
+      text-decoration: none; transition: border-color .2s, color .2s, background .2s;
+      white-space: nowrap;
     }
-    .progress-label span:last-child { color: #00c6ff; font-weight: 600; }
-    .progress-track { height: 6px; background: rgba(255,255,255,.06); border-radius: 10px; overflow: hidden; }
-    .progress-fill {
-      height: 100%; width: 0;
-      background: linear-gradient(90deg, #0072ff, #00c6ff);
-      border-radius: 10px; animation: grow 2s ease forwards;
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); background: rgba(0,198,255,.05); }
+
+    /* Panel visual del hero: "ficha de becario" */
+    .hero-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 32px; position: relative; overflow: hidden;
     }
-    @keyframes grow { to { width: 35%; } }
-    .btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: linear-gradient(135deg, #0072ff, #00c6ff);
-      color: #fff; padding: 14px 32px; border-radius: 50px;
-      font-family: 'Syne', sans-serif; font-weight: 700; font-size: .95rem;
-      text-decoration: none; transition: transform .2s, box-shadow .2s;
-      box-shadow: 0 4px 24px rgba(0,114,255,.35);
+    .hero-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--green), var(--accent), var(--accent2));
     }
-    .btn:hover { transform: translateY(-3px); box-shadow: 0 12px 36px rgba(0,114,255,.5); }
-    .logo {
-      position: fixed; top: 24px; left: 50%; transform: translateX(-50%);
-      font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.3rem;
-      background: linear-gradient(90deg, #00c6ff, #00e5a0);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      z-index: 10; text-decoration: none;
+    .hero-card .field { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px dashed var(--border); font-size: .88rem; }
+    .hero-card .field:last-child { border-bottom: none; }
+    .hero-card .field .k { color: var(--muted); }
+    .hero-card .field .v { font-weight: 600; color: var(--text); }
+    .hero-card .tag-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 18px; }
+    .hero-card .tag {
+      font-size: .72rem; padding: 5px 12px; border-radius: 20px;
+      background: rgba(0,198,255,.08); border: 1px solid rgba(0,198,255,.18); color: var(--accent);
     }
-    .logo span { -webkit-text-fill-color: #7a90b0; font-weight: 400; }
+
+    /* ── SECTIONS ── */
+    section { position: relative; z-index: 1; scroll-margin-top: 84px; }
+    .section-inner { max-width: 1200px; margin: 0 auto; padding: 96px 6vw; }
+    .section-tag { display: inline-block; font-size: .75rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+    .section-title { font-size: clamp(1.8rem, 3.6vw, 2.8rem); font-weight: 800; letter-spacing: -1px; margin-bottom: 18px; }
+    .section-sub { color: var(--muted); font-size: 1.02rem; max-width: 560px; }
+
+    /* ── QUÉ ES ── */
+    #que-es { background: var(--bg2); }
+    .qe-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; margin-top: 56px; }
+    .qe-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 32px; transition: transform .3s, box-shadow .3s;
+    }
+    .qe-card:hover { transform: translateY(-6px); box-shadow: var(--glow); }
+    .qe-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin-bottom: 18px; background: linear-gradient(135deg, var(--accent2), var(--accent)); box-shadow: 0 4px 20px rgba(0,114,255,.3); }
+    .qe-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 10px; }
+    .qe-card p { color: var(--muted); font-size: .9rem; line-height: 1.7; }
+
+    /* ── ÁREAS ── */
+    #areas { background: var(--bg); }
+    .areas-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-top: 56px; }
+    .area-item {
+      background: var(--bg3); border: 1px solid var(--border); border-radius: 14px;
+      padding: 26px; transition: border-color .2s, transform .2s;
+    }
+    .area-item:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .area-item .dot { width: 8px; height: 8px; border-radius: 50%; margin-bottom: 14px; }
+    .area-item h4 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+    .area-item p { color: var(--muted); font-size: .85rem; }
+
+    /* ── PROCESO ── */
+    #proceso { background: var(--bg2); }
+    .proceso-track { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 56px; counter-reset: step; }
+    .proceso-step { position: relative; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px 24px; }
+    .proceso-step .step-num {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Syne', sans-serif; font-weight: 800; font-size: .82rem; margin-bottom: 16px;
+    }
+    .proceso-step h4 { font-size: .95rem; font-weight: 700; margin-bottom: 8px; }
+    .proceso-step p { color: var(--muted); font-size: .84rem; line-height: 1.6; }
+
+    /* ── REQUISITOS + BENEFICIOS ── */
+    #requisitos { background: var(--bg); }
+    .req-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 56px; }
+    .req-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 40px; }
+    .req-card h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 22px; }
+    .req-list { display: flex; flex-direction: column; gap: 14px; }
+    .req-list li { list-style: none; display: flex; align-items: flex-start; gap: 12px; color: var(--muted); font-size: .92rem; line-height: 1.6; }
+    .req-list .check { color: var(--green); flex-shrink: 0; font-weight: 800; }
+    .req-list .plus { color: var(--accent); flex-shrink: 0; font-weight: 800; }
+
+    /* ── CTA POSTULACIÓN ── */
+    #postular { background: var(--bg3); }
+    .postular-box {
+      background: linear-gradient(135deg, rgba(0,114,255,.08), rgba(0,229,160,.06));
+      border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 56px; text-align: center;
+    }
+    .postular-box h2 { font-size: clamp(1.6rem, 3.4vw, 2.4rem); margin-bottom: 16px; }
+    .postular-box p { color: var(--muted); max-width: 560px; margin: 0 auto 32px; }
+    .postular-form { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 640px; margin: 0 auto; text-align: left; }
+    .postular-form .full { grid-column: 1 / -1; }
+    .form-group { display: flex; flex-direction: column; gap: 8px; }
+    .form-group label { font-size: .82rem; font-weight: 600; }
+    .form-group input, .form-group select, .form-group textarea {
+      background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+      padding: 13px 16px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: .92rem;
+      outline: none; transition: border-color .2s, box-shadow .2s; resize: vertical;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,198,255,.1); }
+    .form-group textarea { min-height: 110px; }
+    .form-error { grid-column: 1/-1; color: #ff6b6b; font-size: .82rem; display: none; }
+    .btn-submit {
+      grid-column: 1 / -1; background: linear-gradient(135deg, var(--accent2), var(--accent));
+      color: #fff; padding: 16px; border: none; border-radius: 10px;
+      font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,114,255,.4); }
+    .form-success { grid-column: 1/-1; display: none; background: rgba(0,229,160,.1); border: 1px solid rgba(0,229,160,.3); border-radius: 10px; padding: 18px; text-align: center; color: var(--green); font-weight: 600; }
+
+    /* ── FOOTER (idéntico al sitio principal) ── */
+    footer { background: var(--bg); border-top: 1px solid var(--border); padding: 60px 6vw 36px; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 60px; margin-bottom: 48px; }
+    .footer-brand .logo { font-size: 1.8rem; display: block; margin-bottom: 12px; }
+    .footer-brand p { color: var(--muted); font-size: .9rem; line-height: 1.8; max-width: 280px; margin-bottom: 20px; }
+    .footer-col h4 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 18px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul a { color: var(--muted); text-decoration: none; font-size: .9rem; transition: color .2s; }
+    .footer-col ul a:hover { color: var(--accent); }
+    .footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .footer-bottom p { color: var(--muted); font-size: .83rem; }
+    .footer-bottom .made { color: var(--muted); font-size: .83rem; }
+    .footer-bottom .made span { color: var(--accent); }
+    .social-links { display: flex; gap: 12px; }
+    .social-links a { width: 38px; height: 38px; border-radius: 9px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: .9rem; text-decoration: none; transition: border-color .2s, color .2s; }
+    .social-links a:hover { border-color: var(--accent); color: var(--accent); }
+
+    .reveal { opacity: 0; transform: translateY(36px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
+    }
+
+    @media(max-width: 900px) {
+      nav ul, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      nav.menu-open ul { display: flex; flex-direction: column; position: fixed; top: 70px; left: 0; right: 0; background: var(--bg2); padding: 28px; border-bottom: 1px solid var(--border); }
+      nav.menu-open .nav-cta { display: inline-flex; margin: 0 28px 28px; text-align: center; justify-content: center; }
+      .hero-becarios-grid { grid-template-columns: 1fr; }
+      .req-grid { grid-template-columns: 1fr; }
+      .proceso-track { grid-template-columns: 1fr 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .postular-form { grid-template-columns: 1fr; }
+    }
+    @media(max-width: 560px) {
+      .proceso-track { grid-template-columns: 1fr; }
+      .postular-box { padding: 32px 24px; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+    }
   </style>
 </head>
 <body>
 
-  <div class="orb orb1"></div>
-  <div class="orb orb2"></div>
-  <div class="grid"></div>
+<!-- NAVBAR -->
+<nav id="navbar">
+  <a href="../index.html" class="logo" style="text-decoration:none;">Soft<span>vana</span></a>
+  <ul>
+    <li><a href="../index.html#about">Nosotros</a></li>
+    <li><a href="../index.html#services">Servicios</a></li>
+    <li><a href="../index.html#sectors">Sectores</a></li>
+    <li><a href="#que-es" class="active">Becarios</a></li>
+    <li><a href="../index.html#contact">Contacto</a></li>
+  </ul>
+  <a href="#postular" class="nav-cta">Postularme</a>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Abrir menú" aria-expanded="false" aria-controls="navbar">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
 
-  <a href="index.html" class="logo">Soft<span>vana</span></a>
-
-  <div class="content">
-    <div class="badge">🎓 Próximamente · Softvana</div>
-    <div class="icon">🚀</div>
-    <h1>Sección de Becarios<br><span>en Desarrollo</span></h1>
-    <p>Estamos construyendo un espacio especial para jóvenes talentos que quieran crecer junto a nosotros. Pronto podrás postularte para formar parte del equipo Softvana.</p>
-    <div class="progress-wrap">
-      <div class="progress-label">
-        <span>Progreso de desarrollo</span>
-        <span>35%</span>
-      </div>
-      <div class="progress-track">
-        <div class="progress-fill"></div>
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-orb orb1"></div>
+  <div class="hero-orb orb2"></div>
+  <div class="hero-becarios-grid">
+    <div>
+      <div class="hero-badge">🎓 Programa de Becarios · Convocatoria abierta</div>
+      <h1 class="hero-title">Aprende construyendo <span class="gradient">software real</span></h1>
+      <p class="hero-sub">Súmate al equipo de Softvana como becario y participa en proyectos reales de desarrollo web, aplicaciones, IA y datos, con mentoría directa y trabajo 100% remoto.</p>
+      <div class="hero-ctas">
+        <a href="#postular" class="btn-primary">Postularme ahora →</a>
+        <a href="#que-es" class="btn-ghost">Conocer el programa</a>
       </div>
     </div>
-    <a href="../index.html" class="btn">← Volver al inicio</a>
+    <div class="hero-card reveal">
+      <div class="field"><span class="k">Modalidad</span><span class="v">100% remota</span></div>
+      <div class="field"><span class="k">Duración</span><span class="v">3 a 6 meses</span></div>
+      <div class="field"><span class="k">Dedicación</span><span class="v">Medio tiempo / flexible</span></div>
+      <div class="field"><span class="k">Cobertura</span><span class="v">Toda la República Mexicana</span></div>
+      <div class="tag-row">
+        <span class="tag">Frontend</span>
+        <span class="tag">Backend</span>
+        <span class="tag">IA / Datos</span>
+        <span class="tag">UI/UX</span>
+      </div>
+    </div>
   </div>
+</section>
 
+<!-- QUÉ ES -->
+<section id="que-es">
+  <div class="section-inner">
+    <div class="section-tag reveal">El Programa</div>
+    <h2 class="section-title reveal">Más que una beca, un lugar donde crecer</h2>
+    <p class="section-sub reveal">Diseñamos el programa pensando en lo que a nosotros nos hubiera gustado tener: proyectos reales, mentoría cercana y espacio para equivocarse y aprender.</p>
+    <div class="qe-grid">
+      <div class="qe-card reveal">
+        <div class="qe-icon">🛠️</div>
+        <h3>Proyectos reales</h3>
+        <p>Nada de tareas ficticias. Trabajas directamente en productos que usan clientes reales, con código que llega a producción.</p>
+      </div>
+      <div class="qe-card reveal">
+        <div class="qe-icon">🧭</div>
+        <h3>Mentoría cercana</h3>
+        <p>Acompañamiento directo del equipo de desarrollo, con retroalimentación constante y revisión de código en cada entrega.</p>
+      </div>
+      <div class="qe-card reveal">
+        <div class="qe-icon">🕒</div>
+        <h3>Flexibilidad real</h3>
+        <p>Modalidad remota y horarios que se adaptan a tu carga académica, para que puedas aprender sin sacrificar la escuela.</p>
+      </div>
+      <div class="qe-card reveal">
+        <div class="qe-icon">📄</div>
+        <h3>Carta y constancia</h3>
+        <p>Documentación formal para tu estadía profesional, servicio social o requisitos de titulación, cuando aplique.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ÁREAS -->
+<section id="areas">
+  <div class="section-inner">
+    <div class="section-tag reveal">Áreas disponibles</div>
+    <h2 class="section-title reveal">Elige dónde quieres especializarte</h2>
+    <p class="section-sub reveal">Nuestro equipo trabaja en distintos frentes; cada becario se integra a uno según su perfil e intereses.</p>
+    <div class="areas-grid">
+      <div class="area-item reveal">
+        <div class="dot" style="background:var(--accent)"></div>
+        <h4>Desarrollo Frontend</h4>
+        <p>Interfaces con React / Next.js, sistemas de diseño y experiencia de usuario.</p>
+      </div>
+      <div class="area-item reveal">
+        <div class="dot" style="background:var(--green)"></div>
+        <h4>Desarrollo Backend</h4>
+        <p>APIs, bases de datos y arquitectura de servicios con Node.js, Python o similares.</p>
+      </div>
+      <div class="area-item reveal">
+        <div class="dot" style="background:var(--purple)"></div>
+        <h4>IA & Datos</h4>
+        <p>Modelos de NLP, automatización y análisis de datos aplicados a negocio.</p>
+      </div>
+      <div class="area-item reveal">
+        <div class="dot" style="background:#ffcb6b"></div>
+        <h4>Diseño UI/UX</h4>
+        <p>Wireframes, prototipos y diseño visual con identidad de marca.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESO -->
+<section id="proceso">
+  <div class="section-inner">
+    <div class="section-tag reveal">Cómo aplicar</div>
+    <h2 class="section-title reveal">El proceso de selección</h2>
+    <p class="section-sub reveal">Un proceso corto y transparente, pensado para no quitarte tiempo de tus estudios.</p>
+    <div class="proceso-track">
+      <div class="proceso-step reveal">
+        <div class="step-num">01</div>
+        <h4>Postulación</h4>
+        <p>Llenas el formulario con tu perfil, área de interés y un enlace a tu portafolio o GitHub.</p>
+      </div>
+      <div class="proceso-step reveal">
+        <div class="step-num">02</div>
+        <h4>Entrevista breve</h4>
+        <p>Una charla de 30 minutos por videollamada para conocerte y platicar sobre el programa.</p>
+      </div>
+      <div class="proceso-step reveal">
+        <div class="step-num">03</div>
+        <h4>Reto técnico</h4>
+        <p>Un ejercicio corto y realista relacionado al área elegida, sin presión de tiempo excesivo.</p>
+      </div>
+      <div class="proceso-step reveal">
+        <div class="step-num">04</div>
+        <h4>Bienvenida</h4>
+        <p>Onboarding con el equipo, asignación de mentor y arranque en tu primer proyecto real.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REQUISITOS + BENEFICIOS -->
+<section id="requisitos">
+  <div class="section-inner">
+    <div class="section-tag reveal">Detalles del programa</div>
+    <h2 class="section-title reveal">Requisitos y beneficios</h2>
+    <div class="req-grid">
+      <div class="req-card reveal">
+        <h3>Requisitos</h3>
+        <ul class="req-list">
+          <li><span class="check">✓</span> Ser estudiante activo o egresado reciente de una carrera afín a tecnología.</li>
+          <li><span class="check">✓</span> Conocimientos básicos en al menos un área: frontend, backend, datos o diseño.</li>
+          <li><span class="check">✓</span> Disponibilidad de al menos 15 horas semanales.</li>
+          <li><span class="check">✓</span> Ganas de aprender y recibir retroalimentación.</li>
+        </ul>
+      </div>
+      <div class="req-card reveal">
+        <h3>Beneficios</h3>
+        <ul class="req-list">
+          <li><span class="plus">+</span> Trabajo 100% remoto, desde cualquier estado de México.</li>
+          <li><span class="plus">+</span> Mentoría directa del equipo de desarrollo de Softvana.</li>
+          <li><span class="plus">+</span> Proyectos reales para tu portafolio profesional.</li>
+          <li><span class="plus">+</span> Carta de recomendación al finalizar el programa.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POSTULAR -->
+<section id="postular">
+  <div class="section-inner">
+    <div class="postular-box reveal">
+      <div class="section-tag" style="justify-content:center; display:flex;">Postulación</div>
+      <h2>Cuéntanos sobre ti</h2>
+      <p>Completa el formulario y te contactaremos en menos de 48 horas para agendar la entrevista.</p>
+      <form class="postular-form" id="postularForm" novalidate>
+        <div class="form-group">
+          <label for="pNombre">Nombre completo</label>
+          <input type="text" id="pNombre" name="nombre" placeholder="Tu nombre" required />
+        </div>
+        <div class="form-group">
+          <label for="pCorreo">Correo electrónico</label>
+          <input type="email" id="pCorreo" name="correo" placeholder="tu@correo.com" required />
+        </div>
+        <div class="form-group">
+          <label for="pArea">Área de interés</label>
+          <select id="pArea" name="area" required>
+            <option value="" disabled selected>Selecciona un área</option>
+            <option value="Frontend">Desarrollo Frontend</option>
+            <option value="Backend">Desarrollo Backend</option>
+            <option value="IA y Datos">IA & Datos</option>
+            <option value="UI/UX">Diseño UI/UX</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="pPortafolio">Portafolio / GitHub / LinkedIn</label>
+          <input type="text" id="pPortafolio" name="portafolio" placeholder="Enlace a tu trabajo" />
+        </div>
+        <div class="form-group full">
+          <label for="pMensaje">Cuéntanos por qué te interesa el programa</label>
+          <textarea id="pMensaje" name="mensaje" placeholder="Un poco sobre ti, tu experiencia y qué te gustaría aprender..." required></textarea>
+        </div>
+        <p class="form-error" id="pError">Por favor completa nombre, correo válido, área y mensaje.</p>
+        <button type="submit" class="btn-submit">Enviar postulación →</button>
+        <div class="form-success" id="pSuccess" role="status">✅ ¡Postulación enviada! Revisaremos tu perfil y te contactaremos pronto.</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="../index.html" class="logo" style="text-decoration:none; display:inline-block;">Soft<span>vana</span></a>
+        <p>Empresa chiapaneca especializada en desarrollo de software a la medida. Formamos al próximo talento tecnológico de México.</p>
+        <div class="social-links">
+          <a href="#" aria-label="LinkedIn">in</a>
+          <a href="#" aria-label="Twitter / X">tw</a>
+          <a href="#" aria-label="Facebook">fb</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Sitio</h4>
+        <ul>
+          <li><a href="../index.html#services">Servicios</a></li>
+          <li><a href="../index.html#sectors">Sectores</a></li>
+          <li><a href="../index.html#contact">Contacto</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Becarios</h4>
+        <ul>
+          <li><a href="#que-es">El programa</a></li>
+          <li><a href="#areas">Áreas</a></li>
+          <li><a href="#proceso">Proceso</a></li>
+          <li><a href="#postular">Postularme</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Softvana. Todos los derechos reservados.</p>
+      <p class="made">Hecho con <span>💙</span> en Chiapas, México</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  const hamburgerBtn = document.getElementById('hamburger');
+  function toggleMenu() {
+    const nav = document.getElementById('navbar');
+    const isOpen = nav.classList.toggle('menu-open');
+    hamburgerBtn.setAttribute('aria-expanded', isOpen);
+  }
+  document.querySelectorAll('#navbar ul a').forEach(link => {
+    link.addEventListener('click', () => {
+      document.getElementById('navbar').classList.remove('menu-open');
+      hamburgerBtn.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 70);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+
+  const postularForm = document.getElementById('postularForm');
+  const pError = document.getElementById('pError');
+  const pSuccess = document.getElementById('pSuccess');
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  postularForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const nombre = document.getElementById('pNombre').value.trim();
+    const correo = document.getElementById('pCorreo').value.trim();
+    const area = document.getElementById('pArea').value;
+    const portafolio = document.getElementById('pPortafolio').value.trim();
+    const mensaje = document.getElementById('pMensaje').value.trim();
+
+    if (!nombre || !emailRegex.test(correo) || !area || !mensaje) {
+      pError.style.display = 'block';
+      pSuccess.style.display = 'none';
+      return;
+    }
+    pError.style.display = 'none';
+
+    const body = `Nombre: ${nombre}\nCorreo: ${correo}\nÁrea de interés: ${area}\nPortafolio: ${portafolio || 'No proporcionado'}\n\nMensaje:\n${mensaje}`;
+    window.location.href = `mailto:isailibanfer@gmail.com?subject=${encodeURIComponent('Postulación Becarios Softvana - ' + nombre)}&body=${encodeURIComponent(body)}`;
+    pSuccess.style.display = 'block';
+  });
+</script>
 </body>
 </html>

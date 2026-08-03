@@ -232,8 +232,8 @@
     h1.hero-title {
       /* mínimo 1.6rem (móvil pequeño), crece suave con el viewport, máximo 5.2rem (desktop) */
       font-size: clamp(1.2rem, 7vw, 5.2rem);
-      font-weight: 700;
-      letter-spacing: -1px;
+      font-weight: 800;
+      letter-spacing: -2px;
       margin-bottom: 20px;
       animation: fadeUp .9s .1s ease both;
       /* Permite que las palabras largas no causen overflow */
@@ -316,9 +316,13 @@
     section { position: relative; z-index: 1; scroll-margin-top: 84px; }
     .section-inner { max-width: 1200px; margin: 0 auto; padding: 100px 6vw; }
     .section-tag {
-      display: inline-block;
+      display: inline-flex; align-items: center; gap: 10px;
       font-size: .75rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
       color: var(--accent); margin-bottom: 16px;
+    }
+    .section-tag::before {
+      content: ''; width: 18px; height: 1px; background: var(--accent);
+      display: inline-block;
     }
     .section-title {
       font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 800;
