@@ -179,7 +179,7 @@
       text-decoration: none; letter-spacing: .3px;
     }
     .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,114,255,.4); }
-    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
     .hamburger span { width: 24px; height: 2px; background: var(--accent); border-radius: 2px; transition: .3s; }
 
     /* ── HERO ── */
@@ -313,7 +313,7 @@
     @keyframes scrollAnim { 0%{top:7px;opacity:1} 100%{top:22px;opacity:0} }
 
     /* ── SECTIONS ── */
-    section { position: relative; z-index: 1; }
+    section { position: relative; z-index: 1; scroll-margin-top: 84px; }
     .section-inner { max-width: 1200px; margin: 0 auto; padding: 100px 6vw; }
     .section-tag {
       display: inline-block;
@@ -344,7 +344,6 @@
       display: flex; align-items: center; justify-content: center;
       position: relative; overflow: hidden;
     }
-    .code-block { display: none; }
     .tech-stack-visual { padding: 32px; width: 100%; }
     .tech-title { font-family: 'Syne', sans-serif; font-size: .7rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 24px; }
     .tech-rows { display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
@@ -554,6 +553,7 @@
     }
     .form-group textarea { min-height: 140px; }
     .form-group input::placeholder, .form-group textarea::placeholder { color: var(--muted); }
+    .form-error { color: #ff6b6b; font-size: .82rem; display: none; }
     .btn-submit {
       background: linear-gradient(135deg, var(--accent2), var(--accent));
       color: #fff; padding: 16px; border: none; border-radius: 10px;
@@ -594,6 +594,37 @@
       padding: 60px 6vw 36px;
     }
     .footer-inner { max-width: 1200px; margin: 0 auto; }
+
+    /* Banner de Becarios — destacado, arriba del grid de columnas */
+    .footer-becarios {
+      display: flex; align-items: center; justify-content: space-between; gap: 24px;
+      flex-wrap: wrap;
+      background: linear-gradient(135deg, rgba(0,114,255,.08), rgba(0,229,160,.06));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      margin-bottom: 48px;
+      transition: border-color .25s, transform .25s;
+    }
+    .footer-becarios:hover { border-color: rgba(0,198,255,.35); transform: translateY(-2px); }
+    .footer-becarios-text { display: flex; align-items: center; gap: 16px; }
+    .footer-becarios-icon {
+      width: 46px; height: 46px; border-radius: 12px; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; box-shadow: 0 4px 20px rgba(0,114,255,.3);
+    }
+    .footer-becarios-text h4 { font-size: 1.05rem; font-weight: 700; margin-bottom: 4px; }
+    .footer-becarios-text p { color: var(--muted); font-size: .85rem; }
+    .footer-becarios-link {
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      color: #fff; padding: 12px 26px; border-radius: 50px;
+      font-family: 'Syne',sans-serif; font-weight: 700; font-size: .85rem;
+      text-decoration: none; white-space: nowrap;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .footer-becarios-link:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,114,255,.4); }
+
     .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 60px; margin-bottom: 48px; }
     .footer-brand .logo { font-size: 1.8rem; display: block; margin-bottom: 12px; }
     .footer-brand p { color: var(--muted); font-size: .9rem; line-height: 1.8; max-width: 280px; margin-bottom: 20px; }
@@ -635,6 +666,14 @@
     .reveal { opacity: 0; transform: translateY(40px); transition: opacity .7s ease, transform .7s ease; }
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
+    /* ── ACCESSIBILITY: focus visible ── */
+    a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+      outline: 2px solid var(--accent); outline-offset: 3px;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
+    }
+
     /* ── RESPONSIVE ── */
     @media(max-width: 900px) {
       nav ul, .nav-cta { display: none; }
@@ -645,6 +684,8 @@
       .footer-grid { grid-template-columns: 1fr; }
       .hero-stats { gap: 20px; }
       .sectors-list { grid-template-columns: 1fr 1fr; }
+      .footer-becarios { flex-direction: column; align-items: flex-start; text-align: left; }
+      .footer-becarios-link { align-self: stretch; text-align: center; }
     }
 
     /* ── MÓVIL PEQUEÑO: correcciones específicas del Hero ── */
@@ -711,13 +752,12 @@
     <li><a href="#services">Servicios</a></li>
     <li><a href="#grow">Soluciones</a></li>
     <li><a href="#sectors">Sectores</a></li>
-    <li><a href="becarios/becarios.html">Becarios</a></li>
     <li><a href="#contact">Contacto</a></li>
   </ul>
   <a href="#contact" class="nav-cta">Solicitar proyecto</a>
-  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Abrir menú" aria-expanded="false" aria-controls="navbar">
     <span></span><span></span><span></span>
-  </div>
+  </button>
 </nav>
 
 <!-- HERO -->
@@ -1142,24 +1182,25 @@
       <div>
         <div class="section-tag reveal">Contacto</div>
         <h2 class="section-title reveal">Hablemos de<br>tu proyecto</h2>
-        <div class="contact-form reveal">
+        <form class="contact-form reveal" id="contactForm" novalidate>
           <div class="form-group">
-            <label>Tu nombre</label>
-            <input type="text" placeholder="¿Cómo te llamas?" id="nameInput" />
+            <label for="nameInput">Tu nombre</label>
+            <input type="text" placeholder="¿Cómo te llamas?" id="nameInput" name="name" required />
           </div>
           <div class="form-group">
-            <label>Correo electrónico</label>
-            <input type="email" placeholder="tu@correo.com" id="emailInput" />
+            <label for="emailInput">Correo electrónico</label>
+            <input type="email" placeholder="tu@correo.com" id="emailInput" name="email" required />
           </div>
           <div class="form-group">
-            <label>Cuéntanos tu idea</label>
-            <textarea placeholder="Describe brevemente qué tipo de solución necesitas para tu negocio..." id="msgInput"></textarea>
+            <label for="msgInput">Cuéntanos tu idea</label>
+            <textarea placeholder="Describe brevemente qué tipo de solución necesitas para tu negocio..." id="msgInput" name="message" required></textarea>
           </div>
-          <button class="btn-submit" onclick="sendForm()">Enviar mensaje →</button>
-          <div class="form-success" id="formSuccess">
+          <p class="form-error" id="formError">Por favor completa todos los campos con un correo válido.</p>
+          <button type="submit" class="btn-submit">Enviar mensaje →</button>
+          <div class="form-success" id="formSuccess" role="status">
             ✅ ¡Mensaje enviado! Te contactaremos pronto.
           </div>
-        </div>
+        </form>
       </div>
       <div class="contact-info reveal">
         <h3>¿Tienes una idea?</h3>
@@ -1203,14 +1244,27 @@
 <!-- FOOTER -->
 <footer>
   <div class="footer-inner">
+
+    <!-- Banner Becarios (movido desde la navbar) -->
+    <a class="footer-becarios reveal" href="becarios/becarios.html">
+      <div class="footer-becarios-text">
+        <div class="footer-becarios-icon">🎓</div>
+        <div>
+          <h4>Programa de Becarios Softvana</h4>
+          <p>Conoce las oportunidades para estudiantes y nuevos talentos.</p>
+        </div>
+      </div>
+      <span class="footer-becarios-link">Ver programa →</span>
+    </a>
+
     <div class="footer-grid">
       <div class="footer-brand">
         <span class="logo">Soft<span>vana</span></span>
         <p>Empresa chiapaneca especializada en desarrollo de software a la medida. Transformamos ideas en soluciones digitales que hacen crecer tu negocio.</p>
         <div class="social-links">
-          <a href="#">in</a>
-          <a href="#">tw</a>
-          <a href="#">fb</a>
+          <a href="#" aria-label="LinkedIn">in</a>
+          <a href="#" aria-label="Twitter / X">tw</a>
+          <a href="#" aria-label="Facebook">fb</a>
         </div>
       </div>
       <div class="footer-col">
@@ -1228,6 +1282,7 @@
           <li><a href="#about">Sobre nosotros</a></li>
           <li><a href="#mission">Misión y visión</a></li>
           <li><a href="#sectors">Sectores</a></li>
+          <li><a href="becarios/becarios.html">Becarios</a></li>
           <li><a href="#contact">Contacto</a></li>
         </ul>
       </div>
@@ -1240,7 +1295,7 @@
 </footer>
 
 <!-- FLOATING CTA -->
-<a href="#contact" class="floating-cta" title="Contáctanos">💬</a>
+<a href="#contact" class="floating-cta" title="Contáctanos" aria-label="Contáctanos">💬</a>
 
 <script>
   // Navbar scroll
@@ -1250,9 +1305,19 @@
   });
 
   // Mobile menu
+  const hamburgerBtn = document.getElementById('hamburger');
   function toggleMenu() {
-    document.getElementById('navbar').classList.toggle('menu-open');
+    const nav = document.getElementById('navbar');
+    const isOpen = nav.classList.toggle('menu-open');
+    hamburgerBtn.setAttribute('aria-expanded', isOpen);
   }
+  // Cierra el menú móvil al elegir una opción
+  document.querySelectorAll('#navbar ul a').forEach(link => {
+    link.addEventListener('click', () => {
+      document.getElementById('navbar').classList.remove('menu-open');
+      hamburgerBtn.setAttribute('aria-expanded', 'false');
+    });
+  });
 
   // Scroll reveal
   const reveals = document.querySelectorAll('.reveal');
@@ -1267,26 +1332,28 @@
   reveals.forEach(el => observer.observe(el));
 
   // Form
-  function sendForm() {
+  const contactForm = document.getElementById('contactForm');
+  const formError = document.getElementById('formError');
+  const formSuccess = document.getElementById('formSuccess');
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  contactForm.addEventListener('submit', (e) => {
+    e.preventDefault();
     const name = document.getElementById('nameInput').value.trim();
     const email = document.getElementById('emailInput').value.trim();
     const msg = document.getElementById('msgInput').value.trim();
-    if (!name || !email || !msg) { alert('Por favor completa todos los campos.'); return; }
-    const mailto = `mailto:isailibanfer@gmail.com?subject=Proyecto desde Softvana - ${encodeURIComponent(name)}&body=${encodeURIComponent('Nombre: ' + name + '\nCorreo: ' + email + '\n\nMensaje:\n' + msg)}`;
-    window.location.href = mailto;
-    document.getElementById('formSuccess').style.display = 'block';
-  }
 
-  // Typed hero
-  const words = ['impacto real.', 'más clientes.', 'tu crecimiento.', 'resultados.'];
-  let wi = 0, ci = 0, deleting = false;
-  const typed = document.querySelector('.gradient');
-  if (typed) {
-    const baseText = 'que impulsa tu negocio';
-    function typeLoop() {
-      setTimeout(typeLoop, deleting ? 60 : 120);
+    if (!name || !email || !msg || !emailRegex.test(email)) {
+      formError.style.display = 'block';
+      formSuccess.style.display = 'none';
+      return;
     }
-  }
+    formError.style.display = 'none';
+
+    const mailto = `mailto:isailibanfer@gmail.com?subject=${encodeURIComponent('Proyecto desde Softvana - ' + name)}&body=${encodeURIComponent('Nombre: ' + name + '\nCorreo: ' + email + '\n\nMensaje:\n' + msg)}`;
+    window.location.href = mailto;
+    formSuccess.style.display = 'block';
+  });
 </script>
 </body>
 </html>
