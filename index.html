@@ -1267,26 +1267,48 @@
   reveals.forEach(el => observer.observe(el));
 
   // Form
-  function sendForm() {
-    const name = document.getElementById('nameInput').value.trim();
-    const email = document.getElementById('emailInput').value.trim();
-    const msg = document.getElementById('msgInput').value.trim();
-    if (!name || !email || !msg) { alert('Por favor completa todos los campos.'); return; }
-    const mailto = `mailto:isailibanfer@gmail.com?subject=Proyecto desde Softvana - ${encodeURIComponent(name)}&body=${encodeURIComponent('Nombre: ' + name + '\nCorreo: ' + email + '\n\nMensaje:\n' + msg)}`;
-    window.location.href = mailto;
-    document.getElementById('formSuccess').style.display = 'block';
-  }
+  // Form
+async function sendForm() {
+  const name = document.getElementById('nameInput').value.trim();
+  const email = document.getElementById('emailInput').value.trim();
+  const msg = document.getElementById('msgInput').value.trim();
+  const btn = document.querySelector('.btn-submit');
 
-  // Typed hero
-  const words = ['impacto real.', 'más clientes.', 'tu crecimiento.', 'resultados.'];
-  let wi = 0, ci = 0, deleting = false;
-  const typed = document.querySelector('.gradient');
-  if (typed) {
-    const baseText = 'que impulsa tu negocio';
-    function typeLoop() {
-      setTimeout(typeLoop, deleting ? 60 : 120);
+  if (!name || !email || !msg) { alert('Por favor completa todos los campos.'); return; }
+
+  btn.disabled = true;
+  btn.textContent = 'Enviando...';
+
+  try {
+    const response = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        access_key: '72d3bd3d-7251-4549-974b-316ab59f1ee2',
+        subject: `Nuevo proyecto desde Softvana - ${name}`,
+        name: name,
+        email: email,
+        message: msg
+      })
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      document.getElementById('formSuccess').style.display = 'block';
+      document.getElementById('nameInput').value = '';
+      document.getElementById('emailInput').value = '';
+      document.getElementById('msgInput').value = '';
+    } else {
+      throw new Error(result.message || 'Error en el envío');
     }
+  } catch (err) {
+    alert('Hubo un problema al enviar el mensaje. Intenta de nuevo o escríbenos directo a isailibanfer@gmail.com');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Enviar mensaje →';
   }
+}
 </script>
 </body>
 </html>
